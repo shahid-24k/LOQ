@@ -72,7 +72,6 @@ fun LibraryScreen(navController: NavController) {
     var showYoutubeImportDialog by remember { mutableStateOf(false) }
     var showCreatePlaylistDialog by rememberSaveable { mutableStateOf(false) }
     var showCreatePlaylistOptionsDialog by rememberSaveable { mutableStateOf(false) }
-    var showAiPlaylistDialog by rememberSaveable { mutableStateOf(false) }
     val context = LocalContext.current
 
     BackHandler(enabled = filterType != LibraryFilter.LIBRARY) {
@@ -299,56 +298,7 @@ fun LibraryScreen(navController: NavController) {
                     )
                 }
 
-                // Create with AI
-                Column(
-                    horizontalAlignment = Alignment.CenterHorizontally,
-                    modifier = Modifier
-                        .weight(1f)
-                        .padding(horizontal = 8.dp)
-                        .border(
-                            width = 1.dp,
-                            color = MaterialTheme.colorScheme.primary.copy(alpha = 0.3f),
-                            shape = RoundedCornerShape(28.dp)
-                        )
-                        .clip(RoundedCornerShape(28.dp))
-                        .clickable {
-                            showCreatePlaylistOptionsDialog = false
-                            showAiPlaylistDialog = true
-                        }
-                        .padding(vertical = 20.dp, horizontal = 8.dp)
-                ) {
-                    Surface(
-                        shape = CircleShape,
-                        color = MaterialTheme.colorScheme.primaryContainer,
-                        modifier = Modifier.size(56.dp)
-                    ) {
-                        Box(contentAlignment = Alignment.Center) {
-                            Icon(
-                                painter = painterResource(R.drawable.sparks),
-                                contentDescription = null,
-                                modifier = Modifier.size(28.dp),
-                                tint = MaterialTheme.colorScheme.primary
-                            )
-                        }
-                    }
-                    Spacer(Modifier.height(12.dp))
-                    Text(
-                        text = stringResource(R.string.create_playlist_with_ai),
-                        style = MaterialTheme.typography.labelLarge,
-                        textAlign = TextAlign.Center
-                    )
-                }
             }
         }
-    }
-
-    if (showAiPlaylistDialog) {
-        echo.music.iad1tya.ui.component.CreateAiPlaylistDialog(
-            onDismiss = { showAiPlaylistDialog = false },
-            onPlaylistCreated = { playlistId ->
-                showAiPlaylistDialog = false
-                navController.navigate("local_playlist/$playlistId")
-            }
-        )
     }
 }

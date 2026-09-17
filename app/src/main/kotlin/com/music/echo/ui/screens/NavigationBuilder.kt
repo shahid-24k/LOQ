@@ -50,7 +50,6 @@ import echo.music.iad1tya.ui.screens.settings.SettingsScreen
 import echo.music.iad1tya.ui.screens.settings.AccountSettingsScreen
 import echo.music.iad1tya.ui.screens.settings.StorageSettings
 import echo.music.iad1tya.ui.screens.settings.ThemeScreen
-import echo.music.iad1tya.ui.screens.settings.AiSettings
 
 import echo.music.iad1tya.ui.screens.settings.integrations.ListenTogetherSettings
 import echo.music.iad1tya.ui.screens.recognition.RecognitionScreen
@@ -370,13 +369,6 @@ fun NavGraphBuilder.navigationBuilder(
         RomanizationSettings(navController, scrollBehavior)
     }
 
-    composable(
-        route = "settings/ai?highlightKey={highlightKey}",
-        arguments = listOf(navArgument("highlightKey") { type = NavType.StringType; nullable = true })
-    ) { backStackEntry ->
-        AiSettings(navController, scrollBehavior, highlightKey = backStackEntry.arguments?.getString("highlightKey"))
-    }
-    
 
     composable(
         route = "settings/player?highlightKey={highlightKey}",

@@ -163,7 +163,6 @@ import com.music.innertube.YouTube
 import com.music.innertube.models.SongItem
 import com.music.innertube.models.WatchEndpoint
 import echo.music.iad1tya.constants.AppBarHeight
-import echo.music.iad1tya.constants.AiRecommendationsKey
 import echo.music.iad1tya.constants.AppLanguageKey
 import echo.music.iad1tya.constants.DarkModeKey
 import echo.music.iad1tya.constants.DefaultOpenTabKey
@@ -419,27 +418,6 @@ class MainActivity : ComponentActivity() {
                 }
         }
         
-        lifecycleScope.launch {
-            dataStore.data
-                .map { (try { it[AiRecommendationsKey] } catch(e: Exception) { null }) ?: false }
-                .distinctUntilChanged()
-                .collectLatest { enabled ->
-                    val workManager = androidx.work.WorkManager.getInstance(this@MainActivity)
-                    if (enabled) {
-                        val request = androidx.work.PeriodicWorkRequestBuilder<echo.music.iad1tya.ai.AiRecommendationWorker>(1, java.util.concurrent.TimeUnit.DAYS)
-                            .setConstraints(androidx.work.Constraints.Builder().setRequiredNetworkType(androidx.work.NetworkType.CONNECTED).build())
-                            .build()
-                        workManager.enqueueUniquePeriodicWork(
-                            "AiRecommendationWorker",
-                            androidx.work.ExistingPeriodicWorkPolicy.KEEP,
-                            request
-                        )
-                    } else {
-                        workManager.cancelUniqueWork("AiRecommendationWorker")
-                    }
-                }
-        }
-
         setContent {
             echomusicApp(
                 playerConnection = playerConnection,
@@ -1213,13 +1191,6 @@ class MainActivity : ComponentActivity() {
                                                 shuffleContentDescription = stringResource(R.string.shuffle),
                                                 onMusicRecognitionClick = onMusicRecognitionClick,
                                                 musicRecognitionContentDescription = stringResource(R.string.recognition),
-                                                onAiHubClick = { 
-                                                    navController.navigate("settings/ai") {
-                                                        launchSingleTop = true
-                                                    }
-                                                },
-                                                aiHubIconRes = R.drawable.sparks,
-                                                aiHubContentDescription = stringResource(R.string.ai_lyrics_translation),
                                                 isSelected = { screen ->
                                                     currentRoute == screen.route || currentRoute?.startsWith("${screen.route}/") == true
                                                 },
@@ -1327,14 +1298,7 @@ class MainActivity : ComponentActivity() {
                                     onShuffleClick = onShuffleClick,
                                     shuffleEnabled = shuffleEnabled,
                                     shuffleIconRes = R.drawable.shuffle,
-                                    shuffleContentDescription = stringResource(R.string.shuffle),
-                                    onAiHubClick = {
-                                        navController.navigate("settings/ai") {
-                                            launchSingleTop = true
-                                        }
-                                    },
-                                    aiHubIconRes = R.drawable.sparks,
-                                    aiHubContentDescription = stringResource(R.string.ai_lyrics_translation)
+                                    shuffleContentDescription = stringResource(R.string.shuffle)
                                 )
                             }
                             Box(Modifier.weight(1f)) {

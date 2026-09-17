@@ -69,16 +69,6 @@ import echo.music.iad1tya.ui.component.NewAction
 import echo.music.iad1tya.ui.component.NewActionGrid
 import echo.music.iad1tya.ui.component.TextFieldDialog
 import echo.music.iad1tya.viewmodels.LyricsMenuViewModel
-import echo.music.iad1tya.constants.OpenRouterApiKey
-import echo.music.iad1tya.constants.DeeplApiKey
-import echo.music.iad1tya.constants.AiProviderKey
-import echo.music.iad1tya.constants.TranslateLanguageKey
-import echo.music.iad1tya.constants.TranslateModeKey
-import echo.music.iad1tya.constants.AutoTranslateKey
-import echo.music.iad1tya.constants.OpenRouterBaseUrlKey
-import echo.music.iad1tya.constants.OpenRouterModelKey
-import echo.music.iad1tya.constants.DeeplFormalityKey
-import echo.music.iad1tya.lyrics.LyricsTranslationHelper
 import echo.music.iad1tya.utils.rememberPreference
 import androidx.compose.runtime.collectAsState
 
@@ -95,22 +85,6 @@ fun LyricsMenu(
     val context = LocalContext.current
     val database = LocalDatabase.current
     
-    val openRouterApiKey by rememberPreference(OpenRouterApiKey, "")
-    val deeplApiKey by rememberPreference(DeeplApiKey, "")
-    val aiProvider by rememberPreference(AiProviderKey, "OpenRouter")
-    val translateLanguage by rememberPreference(TranslateLanguageKey, "en")
-    val translateMode by rememberPreference(TranslateModeKey, "Literal")
-    var autoTranslate by rememberPreference(AutoTranslateKey, false)
-    val openRouterBaseUrl by rememberPreference(OpenRouterBaseUrlKey, "https://openrouter.ai/api/v1/chat/completions")
-    val openRouterModel by rememberPreference(OpenRouterModelKey, "google/gemini-2.5-flash-lite")
-    val deeplFormality by rememberPreference(DeeplFormalityKey, "default")
-
-    val hasApiKey = if (aiProvider == "DeepL") deeplApiKey.isNotBlank() else openRouterApiKey.isNotBlank()
-
-    
-    
-    val hasTranslations by LyricsTranslationHelper.hasActiveTranslations.collectAsState()
-
     var showEditDialog by rememberSaveable {
         mutableStateOf(false)
     }
@@ -442,49 +416,6 @@ fun LyricsMenu(
         item {
             Material3MenuGroup(
                 items = buildList {
-                    
-                    if (hasApiKey) {
-                        add(
-                            Material3MenuItemData(
-                                title = { Text(stringResource(R.string.lyrics_translation_menu)) },
-                                icon = {
-                                    Icon(
-                                        painter = painterResource(R.drawable.translate),
-                                        contentDescription = null,
-                                    )
-                                },
-                                onClick = {
-                                    autoTranslate = !autoTranslate
-                                    if (!autoTranslate && hasTranslations) {
-                                        lyricsProvider()?.let { lyrics ->
-                                            val clearedLyrics = LyricsTranslationHelper.clearTranslations(lyrics)
-                                            database.query {
-                                                upsert(clearedLyrics)
-                                            }
-                                            LyricsTranslationHelper.triggerClearTranslations()
-                                        }
-                                    }
-                                },
-                                trailingContent = {
-                                    Switch(
-                                        checked = autoTranslate,
-                                        onCheckedChange = { newCheckedState ->
-                                            autoTranslate = newCheckedState
-                                            if (!newCheckedState && hasTranslations) {
-                                                lyricsProvider()?.let { lyrics ->
-                                                    val clearedLyrics = LyricsTranslationHelper.clearTranslations(lyrics)
-                                                    database.query {
-                                                        upsert(clearedLyrics)
-                                                    }
-                                                    LyricsTranslationHelper.triggerClearTranslations()
-                                                }
-                                            }
-                                        },
-                                    )
-                                },
-                            )
-                        )
-                    }
                     
                     add(
                         Material3MenuItemData(

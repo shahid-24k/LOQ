@@ -33,7 +33,6 @@ fun LocalPlaylistMenu(
     onDelete: () -> Unit,
     onDownload: () -> Unit,
     onExport: () -> Unit,
-    onModifyWithAi: () -> Unit,
     onQueue: () -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -105,25 +104,6 @@ fun LocalPlaylistMenu(
             )
         )
         
-        if (playlist.playlist.isEditable) {
-            add(
-                Material3MenuItemData(
-                    title = { Text(stringResource(R.string.modify_with_ai)) },
-                    description = { Text(stringResource(R.string.modify_with_ai_desc)) },
-                    icon = {
-                        Icon(
-                            painter = painterResource(R.drawable.edit), // Or another icon
-                            contentDescription = null
-                        )
-                    },
-                    onClick = {
-                        onModifyWithAi()
-                        onDismiss()
-                    }
-                )
-            )
-        }
-
         add(
             Material3MenuItemData(
                 title = { Text(stringResource(R.string.export_as_csv)) },

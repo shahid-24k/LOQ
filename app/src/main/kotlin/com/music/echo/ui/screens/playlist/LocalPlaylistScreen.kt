@@ -1285,7 +1285,6 @@ fun LocalPlaylistHeader(
     val menuState = LocalMenuState.current
     val syncUtils = LocalSyncUtils.current
     val scope = rememberCoroutineScope()
-    var showAiModifyDialog by rememberSaveable { mutableStateOf(false) }
 
     val playlistLength =
         remember(songs) {
@@ -1760,7 +1759,6 @@ fun LocalPlaylistHeader(
                                 }
                             },
                             onDelete = onshowDeletePlaylistDialog,
-                            onModifyWithAi = { showAiModifyDialog = true },
                             onDownload = {
                                 when (downloadState) {
                                     Download.STATE_COMPLETED -> onShowRemoveDownloadDialog()
@@ -1852,13 +1850,6 @@ fun LocalPlaylistHeader(
         }
     }
 
-    if (showAiModifyDialog) {
-        AiModifyPlaylistDialog(
-            playlistId = playlist.id,
-            currentSongs = songs,
-            onDismiss = { showAiModifyDialog = false }
-        )
-    }
 }
 
 
