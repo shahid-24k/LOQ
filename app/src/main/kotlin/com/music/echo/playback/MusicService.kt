@@ -482,7 +482,7 @@ class MusicService :
     private var silenceSkipJob: Job? = null
 
     
-    private val songUrlCache = HashMap<String, Pair<String, Long>>()
+    private val songUrlCache = StreamUrlCache()
 
     
     private val bypassCacheForQualityChange = mutableSetOf<String>()

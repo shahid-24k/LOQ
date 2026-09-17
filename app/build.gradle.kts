@@ -248,6 +248,8 @@ dependencies {
     implementation(project(":core"))
     implementation(project(":playback"))
 
+    testImplementation(libs.junit)
+
 
 
     // Firebase - GMS flavor only (excluded from F-Droid / FOSS builds)
