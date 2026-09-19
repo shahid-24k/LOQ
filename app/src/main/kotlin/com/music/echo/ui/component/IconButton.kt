@@ -39,13 +39,15 @@ fun ResizableIconButton(
     color: Color = MaterialTheme.colorScheme.onSurface,
     enabled: Boolean = true,
     indication: Indication? = null,
+    contentDescription: String? = null,
     onClick: () -> Unit = {},
 ) {
     Image(
         painter = painterResource(icon),
-        contentDescription = null,
+        contentDescription = contentDescription,
         colorFilter = ColorFilter.tint(color),
         modifier = modifier
+            .sizeIn(minWidth = 48.dp, minHeight = 48.dp)
             .clickable(
                 indication = indication ?: ripple(bounded = false),
                 interactionSource = remember { MutableInteractionSource() },

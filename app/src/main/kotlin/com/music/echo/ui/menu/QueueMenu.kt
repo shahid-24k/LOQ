@@ -87,6 +87,7 @@ fun QueueMenu(
     playerBottomSheetState: BottomSheetState,
     onShowDetailsDialog: () -> Unit,
     onDismiss: () -> Unit,
+    onRemoveFromQueue: (() -> Unit)? = null,
 ) {
     mediaMetadata ?: return
     val context = LocalContext.current
@@ -311,44 +312,65 @@ fun QueueMenu(
         
         item {
             Material3MenuGroup(
-                items = listOf(
-                    Material3MenuItemData(
-                        title = { Text(text = stringResource(R.string.play_next)) },
-                        description = { Text(text = stringResource(R.string.play_next_desc)) },
-                        icon = {
-                            Icon(
-                                painter = painterResource(R.drawable.playlist_play),
-                                contentDescription = null,
-                            )
-                        },
-                        onClick = {
-                            onDismiss()
-                            librarySong?.let {
-                                playerConnection.playNext(it.toMediaItem())
-                            } ?: run {
-                                playerConnection.playNext(mediaMetadata.toMediaItem())
+                items = buildList {
+                    add(
+                        Material3MenuItemData(
+                            title = { Text(text = stringResource(R.string.play_next)) },
+                            description = { Text(text = stringResource(R.string.play_next_desc)) },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.playlist_play),
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = {
+                                onDismiss()
+                                librarySong?.let {
+                                    playerConnection.playNext(it.toMediaItem())
+                                } ?: run {
+                                    playerConnection.playNext(mediaMetadata.toMediaItem())
+                                }
                             }
-                        }
-                    ),
-                    Material3MenuItemData(
-                        title = { Text(text = stringResource(R.string.add_to_queue)) },
-                        description = { Text(text = stringResource(R.string.add_to_queue_desc)) },
-                        icon = {
-                            Icon(
-                                painter = painterResource(R.drawable.queue_music),
-                                contentDescription = null,
-                            )
-                        },
-                        onClick = {
-                            onDismiss()
-                            librarySong?.let {
-                                playerConnection.addToQueue(it.toMediaItem())
-                            } ?: run {
-                                playerConnection.addToQueue(mediaMetadata.toMediaItem())
-                            }
-                        }
+                        )
                     )
-                )
+                    add(
+                        Material3MenuItemData(
+                            title = { Text(text = stringResource(R.string.add_to_queue)) },
+                            description = { Text(text = stringResource(R.string.add_to_queue_desc)) },
+                            icon = {
+                                Icon(
+                                    painter = painterResource(R.drawable.queue_music),
+                                    contentDescription = null,
+                                )
+                            },
+                            onClick = {
+                                onDismiss()
+                                librarySong?.let {
+                                    playerConnection.addToQueue(it.toMediaItem())
+                                } ?: run {
+                                    playerConnection.addToQueue(mediaMetadata.toMediaItem())
+                                }
+                            }
+                        )
+                    )
+                    if (onRemoveFromQueue != null) {
+                        add(
+                            Material3MenuItemData(
+                                title = { Text(text = stringResource(R.string.remove_from_queue)) },
+                                icon = {
+                                    Icon(
+                                        painter = painterResource(R.drawable.remove),
+                                        contentDescription = null,
+                                    )
+                                },
+                                onClick = {
+                                    onDismiss()
+                                    onRemoveFromQueue()
+                                }
+                            )
+                        )
+                    }
+                }
             )
         }
 

@@ -19,6 +19,7 @@ package echo.music.iad1tya.ui.screens
  import androidx.compose.runtime.rememberCoroutineScope
  import androidx.compose.ui.Modifier
  import androidx.compose.ui.res.painterResource
+import androidx.compose.ui.res.stringResource
  import androidx.compose.ui.unit.dp
  import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
  import androidx.navigation.NavController
@@ -142,7 +143,7 @@ package echo.music.iad1tya.ui.screens
              ) {
                  Icon(
                      painterResource(R.drawable.arrow_back),
-                     contentDescription = null
+                     contentDescription = stringResource(R.string.nav_back)
                  )
              }
          }

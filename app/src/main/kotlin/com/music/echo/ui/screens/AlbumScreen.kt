@@ -859,7 +859,7 @@ fun AlbumScreen(
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.arrow_back_ios),
-                        contentDescription = null
+                        contentDescription = stringResource(R.string.nav_back)
                     )
                 }
             }

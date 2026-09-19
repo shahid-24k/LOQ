@@ -31,6 +31,7 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalHapticFeedback
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.pluralStringResource
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.lifecycle.viewmodel.compose.hiltViewModel
 import androidx.navigation.NavController
@@ -192,7 +193,7 @@ fun ArtistSongsScreen(
                 ) {
                     Icon(
                         painterResource(R.drawable.arrow_back),
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.nav_back),
                     )
                 }
             },

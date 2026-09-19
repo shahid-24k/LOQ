@@ -471,7 +471,7 @@ fun Queue(
                     ) {
                         Icon(
                             painter = painterResource(id = R.drawable.more_vert),
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.more_options),
                             modifier = Modifier.size(iconSize),
                             tint = iconButtonColor
                         )
@@ -500,7 +500,7 @@ fun Queue(
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.apple_queue),
-                                contentDescription = null,
+                                contentDescription = stringResource(R.string.queue),
                                 modifier = Modifier.size(40.dp),
                                 tint = TextBackgroundColor
                             )
@@ -540,7 +540,9 @@ fun Queue(
                                 painter = painterResource(
                                     if (isBluetoothConnected) R.drawable.headset_applemusic else R.drawable.speaker_apple
                                 ),
-                                contentDescription = null,
+                                contentDescription = stringResource(
+                                    if (isBluetoothConnected) R.string.audio_output_headset else R.string.audio_output_speaker
+                                ),
                                 modifier = Modifier.size(30.dp)
                             )
                         }
@@ -601,7 +603,7 @@ fun Queue(
                         ) {
                             Icon(
                                 painter = painterResource(id = R.drawable.apple_music_me),
-                                contentDescription = null,
+                                contentDescription = stringResource(R.string.lyrics),
                                 modifier = Modifier.size(40.dp),
                                 tint = TextBackgroundColor
                             )
@@ -1065,7 +1067,7 @@ fun Queue(
                         ) {
                             Icon(
                                 painter = painterResource(R.drawable.close),
-                                contentDescription = null,
+                                contentDescription = stringResource(R.string.nav_exit_selection),
                             )
                         }
                         Text(
@@ -1100,7 +1102,7 @@ fun Queue(
                         ) {
                             Icon(
                                 painter = painterResource(R.drawable.more_vert),
-                                contentDescription = null,
+                                contentDescription = stringResource(R.string.more_options),
                                 tint = LocalContentColor.current,
                             )
                         }
@@ -1224,13 +1226,16 @@ fun Queue(
                                                                         }
                                                                     },
                                                                     onDismiss = menuState::dismiss,
+                                                                    onRemoveFromQueue = {
+                                                                        playerConnection.player.removeMediaItem(window.firstPeriodIndex)
+                                                                    },
                                                                 )
                                                             }
                                                         }
                                                     ) {
                                                         Icon(
                                                             painter = painterResource(R.drawable.more_vert),
-                                                            contentDescription = null,
+                                                            contentDescription = stringResource(R.string.more_options),
                                                         )
                                                     }
                                                 }
@@ -1345,7 +1350,7 @@ fun Queue(
                                             ) {
                                                 Icon(
                                                     painter = painterResource(R.drawable.playlist_play),
-                                                    contentDescription = null,
+                                                    contentDescription = stringResource(R.string.play_next),
                                                 )
                                             }
                                             IconButton(
@@ -1358,7 +1363,7 @@ fun Queue(
                                             ) {
                                                 Icon(
                                                     painter = painterResource(R.drawable.queue_music),
-                                                    contentDescription = null,
+                                                    contentDescription = stringResource(R.string.add_to_queue),
                                                 )
                                             }
                                         }
@@ -1427,6 +1432,7 @@ private fun PlayerQueueButton(
     shape: RoundedCornerShape,
     modifier: Modifier = Modifier,
     text: String? = null,
+    contentDescription: String? = text,
     textButtonColor: Color,
     iconButtonColor: Color,
     iconSize: androidx.compose.ui.unit.Dp,
@@ -1481,7 +1487,7 @@ private fun PlayerQueueButton(
             val finalTint = if (enabled) baseTint else baseTint.copy(alpha = 0.5f)
             Icon(
                 painter = painterResource(id = icon),
-                contentDescription = null,
+                contentDescription = contentDescription,
                 modifier = Modifier.size(iconSize),
                 tint = finalTint
             )

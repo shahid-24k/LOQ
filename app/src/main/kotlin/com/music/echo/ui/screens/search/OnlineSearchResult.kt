@@ -243,7 +243,7 @@ fun OnlineSearchResult(
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.more_vert),
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.more_options),
                     )
                 }
             },
@@ -315,7 +315,7 @@ fun OnlineSearchResult(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.close),
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.clear_search),
                             tint = MaterialTheme.colorScheme.onSurfaceVariant
                         )
                     }

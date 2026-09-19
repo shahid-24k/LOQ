@@ -296,7 +296,7 @@ fun LocalSongScreen(
                             IconButton(onClick = onExitSelectionMode) {
                                 Icon(
                                     painter = painterResource(R.drawable.close),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.nav_exit_selection),
                                 )
                             }
                         },
@@ -328,7 +328,7 @@ fun LocalSongScreen(
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.more_vert),
-                                    contentDescription = null
+                                    contentDescription = stringResource(R.string.more_options)
                                 )
                             }
                         },
@@ -398,7 +398,7 @@ fun LocalSongScreen(
                             IconButton(onClick = onBack) {
                                 Icon(
                                     painter = painterResource(R.drawable.arrow_back),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.nav_back),
                                 )
                             }
                         },
@@ -498,7 +498,7 @@ fun LocalSongScreen(
                                 ) {
                                     Icon(
                                         painter = painterResource(R.drawable.more_vert),
-                                        contentDescription = null,
+                                        contentDescription = stringResource(R.string.more_options),
                                     )
                                 }
                             }
@@ -1171,7 +1171,7 @@ private fun LocalSongFolderChip(
                 ) {
                     Icon(
                         painter = painterResource(R.drawable.close),
-                        contentDescription = null,
+                        contentDescription = stringResource(R.string.remove_excluded_folder),
                         tint = MaterialTheme.colorScheme.onSecondaryContainer,
                         modifier = Modifier.size(14.dp),
                     )

@@ -272,7 +272,7 @@ fun LibrarySongsScreen(
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.more_vert),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.more_options),
                                 )
                             }
                         }
@@ -326,7 +326,7 @@ fun LibrarySongsScreen(
                 title = { Text(pluralStringResource(R.plurals.n_selected, selection.size, selection.size)) },
                 navigationIcon = {
                     IconButton(onClick = onExitSelectionMode) {
-                        Icon(painter = painterResource(R.drawable.close), contentDescription = null)
+                        Icon(painter = painterResource(R.drawable.close), contentDescription = stringResource(R.string.nav_exit_selection))
                     }
                 },
                 actions = {
@@ -353,7 +353,7 @@ fun LibrarySongsScreen(
                             }
                         }
                     ) {
-                        Icon(painter = painterResource(R.drawable.more_vert), contentDescription = null)
+                        Icon(painter = painterResource(R.drawable.more_vert), contentDescription = stringResource(R.string.more_options))
                     }
                 },
                 colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.surface.copy(alpha = 0.88f)),

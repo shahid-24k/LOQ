@@ -541,7 +541,11 @@ fun AutoPlaylistScreen(
                         painter = painterResource(
                             if (inSelectMode) R.drawable.close else R.drawable.arrow_back
                         ),
-                        contentDescription = null
+                        contentDescription = if (inSelectMode) {
+                            stringResource(R.string.nav_exit_selection)
+                        } else {
+                            stringResource(R.string.nav_back)
+                        }
                     )
                 }
             },

@@ -291,7 +291,7 @@ fun LastFMSettingsScreen(
                     ) {
                         androidx.compose.material3.Icon(
                             androidx.compose.ui.res.painterResource(echo.music.iad1tya.R.drawable.arrow_back),
-                            contentDescription = null,
+                            contentDescription = stringResource(echo.music.iad1tya.R.string.nav_back),
                         )
                     }
                 },

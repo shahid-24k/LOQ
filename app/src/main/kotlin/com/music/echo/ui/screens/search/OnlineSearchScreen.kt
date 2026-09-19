@@ -273,7 +273,7 @@ fun OnlineSearchScreen(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.more_vert),
-                            contentDescription = null
+                            contentDescription = stringResource(R.string.more_options)
                         )
                     }
                 },
@@ -393,7 +393,7 @@ fun SuggestionItem(
             ) {
                 Icon(
                     painter = painterResource(R.drawable.close),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.remove_from_history),
                 )
             }
         }
@@ -404,7 +404,7 @@ fun SuggestionItem(
         ) {
             Icon(
                 painter = painterResource(R.drawable.arrow_top_left),
-                contentDescription = null,
+                contentDescription = stringResource(R.string.fill_search_box),
             )
         }
     }

@@ -2070,7 +2070,7 @@ highlightKey: String? = null) {
             ) {
                 Icon(
                     painterResource(R.drawable.arrow_back),
-                    contentDescription = null,
+                    contentDescription = stringResource(R.string.nav_back),
                 )
             }
         }

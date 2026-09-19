@@ -58,7 +58,7 @@ fun AxionEqScreen(
                     ) {
                         Icon(
                             painter = androidx.compose.ui.res.painterResource(R.drawable.arrow_back),
-                            contentDescription = null
+                            contentDescription = stringResource(R.string.nav_back)
                         )
                     }
                 }

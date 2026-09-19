@@ -358,7 +358,7 @@ fun DiscordSettings(
                     ) {
                         Icon(
                             painter = painterResource(R.drawable.arrow_back),
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.nav_back),
                         )
                     }
                 },
@@ -368,7 +368,7 @@ fun DiscordSettings(
                     IconButton(onClick = { threeDotMenuExpanded = true }) {
                         Icon(
                             painter = painterResource(R.drawable.more_vert),
-                            contentDescription = null,
+                            contentDescription = stringResource(R.string.more_options),
                         )
                     }
 

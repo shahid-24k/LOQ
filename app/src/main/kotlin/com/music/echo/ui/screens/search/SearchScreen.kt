@@ -303,7 +303,7 @@ fun SearchScreen(
                                             IconButton(onClick = { query = TextFieldValue("") }) {
                                                 Icon(
                                                     painter = painterResource(R.drawable.close),
-                                                    contentDescription = null,
+                                                    contentDescription = stringResource(R.string.clear_search),
                                                     tint = MaterialTheme.colorScheme.onSurface
                                                 )
                                             }

@@ -1745,7 +1745,7 @@ fun BottomSheetPlayer(
                                         Download.STATE_COMPLETED -> {
                                             Icon(
                                                 painter = painterResource(R.drawable.offline),
-                                                contentDescription = null,
+                                                contentDescription = stringResource(R.string.downloaded_available_offline),
                                                 modifier = Modifier.size(24.dp)
                                             )
                                         }
@@ -1757,7 +1757,7 @@ fun BottomSheetPlayer(
                                         else -> {
                                             Icon(
                                                 painter = painterResource(R.drawable.download),
-                                                contentDescription = null,
+                                                contentDescription = stringResource(R.string.action_download),
                                                 modifier = Modifier.size(24.dp)
                                             )
                                         }
@@ -1796,7 +1796,7 @@ fun BottomSheetPlayer(
                                 ) {
                                     Icon(
                                         painter = painterResource(R.drawable.more_horiz),
-                                        contentDescription = null,
+                                        contentDescription = stringResource(R.string.more_options),
                                         modifier = Modifier.size(24.dp)
                                     )
                                 }
@@ -1864,7 +1864,7 @@ fun BottomSheetPlayer(
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.more_vert),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.more_options),
                                     tint = textButtonColor,
                                     modifier = Modifier
                                         .align(Alignment.Center)
@@ -1904,7 +1904,7 @@ fun BottomSheetPlayer(
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.more_horiz),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.more_options),
                                     tint = textButtonColor,
                                     modifier = Modifier
                                         .align(Alignment.Center)
@@ -1925,7 +1925,9 @@ fun BottomSheetPlayer(
                                             R.drawable.favorite
                                         else R.drawable.favorite_border
                                     ),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(
+                                        if (currentSong?.song?.liked == true) R.string.unlike else R.string.like
+                                    ),
                                     tint = textButtonColor,
                                     modifier = Modifier
                                         .align(Alignment.Center)
@@ -2361,7 +2363,7 @@ fun BottomSheetPlayer(
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.skip_previous),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.previous),
                                     modifier = Modifier.size(32.dp)
                                 )
                             }
@@ -2453,7 +2455,7 @@ fun BottomSheetPlayer(
                             ) {
                                 Icon(
                                     painter = painterResource(R.drawable.skip_next),
-                                    contentDescription = null,
+                                    contentDescription = stringResource(R.string.next),
                                     modifier = Modifier.size(32.dp)
                                 )
                             }
@@ -2491,6 +2493,7 @@ fun BottomSheetPlayer(
                                     icon = R.drawable.apple_skip_previous,
                                     enabled = canSkipPrevious && !isListenTogetherGuest,
                                     color = TextBackgroundColor,
+                                    contentDescription = stringResource(R.string.previous),
                                     modifier =
                                         Modifier
                                             .size(48.dp)
@@ -2544,7 +2547,15 @@ fun BottomSheetPlayer(
                                                 R.drawable.play_applemusic
                                             },
                                         ),
-                                    contentDescription = null,
+                                    contentDescription = if (isListenTogetherGuest) {
+                                        stringResource(if (isMuted) R.string.unmute else R.string.mute)
+                                    } else if (playbackState == STATE_ENDED) {
+                                        stringResource(R.string.replay)
+                                    } else if (effectiveIsPlaying) {
+                                        stringResource(R.string.pause)
+                                    } else {
+                                        stringResource(R.string.play)
+                                    },
                                     colorFilter = ColorFilter.tint(TextBackgroundColor),
                                     modifier =
                                         Modifier
@@ -2560,6 +2571,7 @@ fun BottomSheetPlayer(
                                     icon = R.drawable.apple_skip_next,
                                     enabled = canSkipNext && !isListenTogetherGuest,
                                     color = TextBackgroundColor,
+                                    contentDescription = stringResource(R.string.next),
                                     modifier =
                                         Modifier
                                             .size(48.dp)
@@ -3029,7 +3041,7 @@ fun MoreActionsButton(
     ) {
         Image(
             painter = painterResource(R.drawable.more_vert),
-            contentDescription = null,
+            contentDescription = stringResource(R.string.more_options),
             colorFilter = ColorFilter.tint(iconButtonColor)
         )
     }
@@ -3073,7 +3085,7 @@ private fun PlayerMoreMenuButton(
     ) {
         Image(
             painter = painterResource(R.drawable.more_horiz),
-            contentDescription = null,
+            contentDescription = stringResource(R.string.more_options),
             colorFilter = ColorFilter.tint(iconButtonColor),
         )
     }
