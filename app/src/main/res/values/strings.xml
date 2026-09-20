@@ -354,7 +354,6 @@
 
     <string name="player_and_audio">Player and audio</string>
     <string name="setting_desc_account">Manage login and integrations</string>
-    <string name="setting_desc_ai">AI-powered lyrics and translations</string>
     <string name="setting_desc_appearance">Themes, colors, and UI layout</string>
     <string name="setting_desc_player">Playback, quality, and equalizer</string>
     <string name="setting_desc_listen_together">Sync playback with friends</string>

@@ -682,42 +682,7 @@
     <string name="unblock">رفع مسدودیت</string>
     <string name="user_blocked_by_host">کاربر توسط میزبان مسدود شد</string>
 
-    <!-- AI Lyrics Translation -->
-    <string name="ai_lyrics_translation">ترجمه هوش مصنوعی متن آهنگ</string>
-    <string name="ai_translating_lyrics">در حال ترجمه متن آهنگ...</string>
-    <string name="ai_lyrics_translated">متن آهنگ ترجمه شد</string>
-    <string name="ai_provider">سرویس‌دهنده</string>
-    <string name="ai_base_url">آدرس پایه (Base URL)</string>
-    <string name="ai_api_key">کلید API</string>
-    <string name="ai_model">مدل</string>
-    <string name="ai_translation_mode">حالت ترجمه</string>
-    <string name="ai_target_language">زبان مقصد</string>
-    <string name="ai_setup_guide">اطلاعات احراز هویت API</string>
-    <string name="ai_translation_literal">ترجمه روان</string>
-    <string name="ai_translation_literal_desc">ترجمه معنای متن به زبان مقصد</string>
-    <string name="ai_translation_transcribed">آوانویسی (Transcription)</string>
-    <string name="ai_translation_transcribed_desc">تبدیل تلفظ کلمات به خط زبان مقصد</string>
-    <string name="ai_api_key_required">کلید API الزامی است</string>
-    <string name="ai_error_api_key_required">وارد کردن کلید API الزامی است</string>
-    <string name="ai_error_no_lyrics">متنی برای ترجمه وجود ندارد</string>
-    <string name="ai_error_lyrics_empty">متن آهنگ خالی است</string>
-    <string name="ai_error_language_required">انتخاب زبان مقصد الزامی است</string>
-    <string name="ai_error_unexpected">نتیجه ترجمه غیرمنتظره بود</string>
-    <string name="ai_error_unknown">خطای ناشناخته رخ داده است</string>
-    <string name="ai_error_translation_failed">ترجمه با شکست مواجه شد</string>
-    <string name="ai_provider_help">دریافت کلیدهای API</string>
-    <string name="ai_provider_openrouter_help">برای مدل‌های رایگان و تجاری به openrouter.ai مراجعه کنید</string>
-    <string name="ai_provider_mistral_help">به console.mistral.ai/api-keys مراجعه کنید</string>
-    <string name="ai_provider_openai_help">به platform.openai.com/api-keys مراجعه کنید</string>
-    <string name="ai_provider_claude_help">به console.anthropic.com/settings/keys مراجعه کنید</string>
-    <string name="ai_provider_gemini_help">به aistudio.google.com/apikey مراجعه کنید</string>
-    <string name="ai_provider_perplexity_help">به perplexity.ai/settings/api مراجعه کنید</string>
-    <string name="ai_provider_xai_help">به console.x.ai مراجعه کنید</string>
-    <string name="ai_provider_deepl_help">برای دریافت کلیدهای رایگان یا تجاری به deepl.com/pro-api مراجعه کنید</string>
-    <string name="ai_deepl_formality">میزان رسمیت (لحن)</string>
-    <string name="ai_deepl_formality_default">پیش‌فرض</string>
-    <string name="ai_deepl_formality_more">رسمی‌تر</string>
-    <string name="ai_deepl_formality_less">عاميانه‌تر / دوستانه‌تر</string>
+    <!-- Lossless Music Contribution -->
 
     <!-- Crash Handler -->
     <string name="crash_title">برنامه متوقف شد</string>

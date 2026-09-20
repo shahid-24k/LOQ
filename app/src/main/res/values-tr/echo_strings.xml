@@ -600,41 +600,7 @@
     <string name="unblock">Engellemeyi kaldır</string>
     <string name="user_blocked_by_host">Kullanıcı sunucu sahibi tarafından engellendi</string>
 
-    <!-- AI Lyrics Translation -->
-    <string name="ai_lyrics_translation">Yapay zeka ile şarkı sözü çevirisi</string>
-    <string name="ai_translating_lyrics">Sözler çeviriliyor...</string>
-    <string name="ai_lyrics_translated">Sözler çevirildi</string>
-    <string name="ai_provider">Sağlayıcı</string>
-    <string name="ai_base_url">Temel URL</string>
-    <string name="ai_api_key">API Anahtarı</string>
-    <string name="ai_model">Model</string>
-    <string name="ai_translation_mode">Çeviri modu</string>
-    <string name="ai_target_language">Hedef Dil</string>
-    <string name="ai_setup_guide">API kimliği</string>
-    <string name="ai_translation_literal">Çeviri</string>
-    <string name="ai_translation_literal_desc">Hedef dile uygun bir şekilde çevir</string>
-    <string name="ai_translation_transcribed">Transkripsiyon</string>
-    <string name="ai_translation_transcribed_desc">Belirlenmiş alfabeye göre tellaffuz edilecek şekilde çevir</string>
-    <string name="ai_api_key_required">API anahtarına ihtiyaç var</string>
-    <string name="ai_error_api_key_required">API anahtarı zorunludur</string>
-    <string name="ai_error_no_lyrics">Çevirilecek söz bulunmamakta</string>
-    <string name="ai_error_lyrics_empty">Şarkı sözü bulunmamakta</string>
-    <string name="ai_error_language_required">Hedef dilin seçilmesi gerekiyor</string>
-    <string name="ai_error_unexpected">Beklenmeyen çeviri sonucu</string>
-    <string name="ai_error_unknown">Bilinmeyen bir hata oluştu</string>
-    <string name="ai_error_translation_failed">Çeviride sorun oluştu</string>
-    <string name="ai_provider_help">API anahtarı al</string>
-    <string name="ai_provider_openrouter_help">OpenRouter.ai\'ın ücretli ve ücretsiz modellerini görüntüle</string>
-    <string name="ai_provider_openai_help">platform.openai.com/api-keys sitesini ziyaret et</string>
-    <string name="ai_provider_claude_help">console.anthropic.com/settings/keys sitesini ziyaret et</string>
-    <string name="ai_provider_gemini_help">aistudio.google.com/apikey sitesini ziyaret et</string>
-    <string name="ai_provider_perplexity_help">perplexity.ai/settings/api sitesini ziyaret et</string>
-    <string name="ai_provider_xai_help">console.x.ai sitesini ziyaret et</string>
-    <string name="ai_provider_deepl_help">deepl.com/pro-api sitesini ücretli ve ücretsiz planlarını görmek için ziyaret et</string>
-    <string name="ai_deepl_formality">Formalite</string>
-    <string name="ai_deepl_formality_default">Varsayılan</string>
-    <string name="ai_deepl_formality_more">Daha resmi</string>
-    <string name="ai_deepl_formality_less">Az resmi</string>
+    <!-- Lossless Music Contribution -->
 
     <!-- Crash Handler -->
     <string name="crash_title">Uygulamada sorun oluştu</string>

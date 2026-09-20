@@ -610,42 +610,7 @@ est irréversible.
     <string name="unblock">Débloquer</string>
     <string name="user_blocked_by_host">Utilisateur bloqué par l\'hôte</string>
 
-    <!-- AI Lyrics Translation -->
-    <string name="ai_lyrics_translation">Traduction des paroles par IA</string>
-    <string name="ai_translating_lyrics">Traduction des paroles...</string>
-    <string name="ai_lyrics_translated">Paroles traduites</string>
-    <string name="ai_provider">Fournisseur</string>
-    <string name="ai_base_url">URL de base</string>
-    <string name="ai_api_key">Clé API</string>
-    <string name="ai_model">Modèle</string>
-    <string name="ai_translation_mode">Mode de traduction</string>
-    <string name="ai_target_language">Langue cible</string>
-    <string name="ai_setup_guide">Identifiants API</string>
-    <string name="ai_translation_literal">Traduction</string>
-    <string name="ai_translation_literal_desc">Traduire le sens dans la langue cible</string>
-    <string name="ai_translation_transcribed">Transcription</string>
-    <string name="ai_translation_transcribed_desc">Convertir la prononciation dans l\'écriture cible</string>
-    <string name="ai_api_key_required">Clé API requise</string>
-    <string name="ai_error_api_key_required">Une clé API est requise</string>
-    <string name="ai_error_no_lyrics">Aucune parole à traduire</string>
-    <string name="ai_error_lyrics_empty">Les paroles sont vides</string>
-    <string name="ai_error_language_required">La langue cible est obligatoire</string>
-    <string name="ai_error_unexpected">Résultat de traduction inattendu</string>
-    <string name="ai_error_unknown">Une erreur inconnue s\'est produite</string>
-    <string name="ai_error_translation_failed">Échec de la traduction</string>
-    <string name="ai_provider_help">Obtenir des clés API</string>
-    <string name="ai_provider_openrouter_help">Rendez-vous sur openrouter.ai pour découvrir les modèles gratuits et payants</string>
-	<string name="ai_provider_mistral_help">Rendez-vous sur console.mistral.ai/api-keys</string>
-    <string name="ai_provider_openai_help">Rendez-vous sur platform.openai.com/api-keys</string>
-    <string name="ai_provider_claude_help">Rendez-vous sur console.anthropic.com/settings/keys</string>
-    <string name="ai_provider_gemini_help">Rendez-vous sur aistudio.google.com/apikey</string>
-    <string name="ai_provider_perplexity_help">Rendez-vous sur perplexity.ai/settings/api</string>
-    <string name="ai_provider_xai_help">Rendez-vous sur console.x.ai</string>
-    <string name="ai_provider_deepl_help">Rendez-vous sur deepl.com/pro-api pour obtenir des clés gratuites et payantes</string>
-    <string name="ai_deepl_formality">Formalité</string>
-    <string name="ai_deepl_formality_default">Par défaut</string>
-    <string name="ai_deepl_formality_more">Plus formel</string>
-    <string name="ai_deepl_formality_less">Moins formel</string>
+    <!-- Lossless Music Contribution -->
 
     <!-- Crash Handler -->
     <string name="crash_title">L\'application a planté</string>
