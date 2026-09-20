@@ -47,5 +47,5 @@ EchoNotificationProvider.kt remains in
 app/src/main/kotlin/com/music/echo/echomusic/updater/downloadmanager/,
 despite being real Media3 playback-notification infrastructure unrelated
 to the updater. Relocating it to the playback package is a legitimate but
-separate, isolated cleanup -- not required for Hlbk functionality, not
+separate, isolated cleanup -- not required for LOQ functionality, not
 part of this phase, and not done here.

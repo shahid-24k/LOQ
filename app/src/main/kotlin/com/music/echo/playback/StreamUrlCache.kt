@@ -2,7 +2,7 @@
  * Adapted from the Metrolist Project's StreamUrlCache (C) 2026, GPL-3.0.
  * https://github.com/MetrolistGroup/Metrolist
  *
- * Adaptation notes (Hlbk):
+ * Adaptation notes (LOQ):
  * Echo's existing call sites in MusicService.kt treat this cache as a plain
  * Map<String, Pair<String, Long>> (url to absolute-expiry-millis), keyed by
  * "${mediaId}_${audioQuality.name}", and use get/set, remove, containsKey,

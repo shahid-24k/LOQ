@@ -344,7 +344,7 @@ private fun AboutAppCard() {
             Spacer(Modifier.height(4.dp))
             
             Text(
-                text = if (rotation <= 90f) "Echo Music" else "Developed by Aditya",
+                text = if (rotation <= 90f) "LOQ" else "Developed by Aditya",
                 style = MaterialTheme.typography.titleLarge,
                 fontWeight = FontWeight.Bold,
                 color = MaterialTheme.colorScheme.onSurface,

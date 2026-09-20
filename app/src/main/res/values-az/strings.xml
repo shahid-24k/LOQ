@@ -383,7 +383,7 @@
     <string name="recognition_notification_processing">Musiqi emal edilir</string>
     <string name="recognition_notification_no_match">Uyğunluq tapılmadı</string>
     <string name="recognition_notification_failed">Musiqini tanımaq mümkün olmadı</string>
-    <string name="listen_on_echo_music">Echo Music-də dinlə</string>
+    <string name="listen_on_echo_music">LOQ-də dinlə</string>
     <string name="qs_tile_music_recognizer">Musiqi tanıyıcı</string>
     <string name="listenbrainz_scrobbling">ListenBrainz skrobblinqi</string>
     <string name="listenbrainz_scrobbling_description">Dinlədiyiniz mahnıları ListenBrainz-ə göndərin</string>

@@ -339,7 +339,7 @@
     <string name="listen_together_smart_resync">Smart nettverkssynkronisering</string>
     <string name="listen_together_smart_resync_desc">Ta automatisk igjen verten etter et tilkoblingsbrudd</string>
     <string name="spotify_import_title">Importer fra Spotify</string>
-    <string name="spotify_import_desc">Koble til Spotify, velg spillelister, og speil dem til lokale Echo Music-spillelister.</string>
+    <string name="spotify_import_desc">Koble til Spotify, velg spillelister, og speil dem til lokale LOQ-spillelister.</string>
     <string name="spotify_connect">Koble til Spotify</string>
     <string name="spotify_refresh">Oppdater Spotify-biblioteket</string>
     <string name="spotify_select_sources">Velg Spotify-spillelister</string>
@@ -402,14 +402,14 @@
     <string name="recognition_notification_processing">Identifiserer…</string>
     <string name="recognition_notification_no_match">Fant ingen treff</string>
     <string name="recognition_notification_failed">Gjenkjenningen mislyktes</string>
-    <string name="listen_on_echo_music">Lytt på Echo Music</string>
+    <string name="listen_on_echo_music">Lytt på LOQ</string>
     <string name="qs_tile_music_recognizer">Gjenkjenn musikk</string>
     <string name="listenbrainz_scrobbling">ListenBrainz-skrobbling</string>
     <string name="listenbrainz_scrobbling_description">Send avspilte spor automatisk til ListenBrainz</string>
     <string name="set_listenbrainz_token">Angi ListenBrainz-token</string>
-    <string name="youtube_decryption_settings">Echo Extractor</string>
+    <string name="youtube_decryption_settings">LOQ Extractor</string>
     <string name="youtube_decryption_desc">Konfigurer innstillingene for uttrekkeren</string>
-    <string name="youtube_decryption_support">Echo Extractor</string>
+    <string name="youtube_decryption_support">LOQ Extractor</string>
     <string name="youtube_decryption_support_desc">Henter automatisk ut konfigurasjoner for YouTube-avspilling. Låst til aktiv.</string>
     <string name="force_update_cipher">Tving oppdatering av konfigurasjoner</string>
     <string name="force_update_cipher_desc">Last ned de nyeste overstyringstilordningene for uttrekkeren. Begrenset til 3 oppdateringer per dag.</string>
