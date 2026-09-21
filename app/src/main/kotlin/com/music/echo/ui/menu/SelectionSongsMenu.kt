@@ -643,10 +643,10 @@ fun SelectionMediaMetadataMenu(
                     if (currentItems.isNotEmpty() && !isGuest) {
                         add(
                             Material3MenuItemData(
-                                title = { Text(text = stringResource(R.string.delete)) },
+                                title = { Text(text = stringResource(R.string.remove_from_queue)) },
                                 icon = {
                                     Icon(
-                                        painter = painterResource(R.drawable.delete),
+                                        painter = painterResource(R.drawable.remove),
                                         contentDescription = null,
                                     )
                                 },
