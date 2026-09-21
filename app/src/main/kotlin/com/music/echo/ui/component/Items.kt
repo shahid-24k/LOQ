@@ -1805,6 +1805,14 @@ object Icon {
                     .size(16.dp)
                     .padding(end = 2.dp)
             )
+            Download.STATE_FAILED -> Icon(
+                painter = painterResource(R.drawable.error),
+                contentDescription = stringResource(R.string.download_failed),
+                tint = MaterialTheme.colorScheme.error,
+                modifier = Modifier
+                    .size(16.dp)
+                    .padding(end = 2.dp)
+            )
             else -> {  }
         }
     }
