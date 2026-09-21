@@ -436,7 +436,31 @@ fun OnlineSearchResult(
                     }
                 }
 
-                if (searchFilter == null && searchSummary == null || searchFilter != null && itemsPage == null) {
+                if (searchFilter == null && viewModel.summaryError != null) {
+                    item {
+                        Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                            EmptyPlaceholder(
+                                icon = R.drawable.error,
+                                text = stringResource(R.string.error_unknown),
+                            )
+                            androidx.compose.material3.TextButton(onClick = { viewModel.retry() }) {
+                                Text(stringResource(R.string.retry))
+                            }
+                        }
+                    }
+                } else if (searchFilter != null && viewModel.errorMap[searchFilter.value] != null) {
+                    item {
+                        Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
+                            EmptyPlaceholder(
+                                icon = R.drawable.error,
+                                text = stringResource(R.string.error_unknown),
+                            )
+                            androidx.compose.material3.TextButton(onClick = { viewModel.retry() }) {
+                                Text(stringResource(R.string.retry))
+                            }
+                        }
+                    }
+                } else if (searchFilter == null && searchSummary == null || searchFilter != null && itemsPage == null) {
                     item {
                         ShimmerHost {
                             repeat(8) {

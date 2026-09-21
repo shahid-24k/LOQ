@@ -43,11 +43,20 @@ constructor(
     }
     val filter = MutableStateFlow<YouTube.SearchFilter?>(null)
     var summaryPage by mutableStateOf<SearchSummaryPage?>(null)
+    var summaryError by mutableStateOf<Throwable?>(null)
     val viewStateMap = mutableStateMapOf<String, ItemsPage?>()
+    val errorMap = mutableStateMapOf<String, Throwable?>()
+    private val retrySignal = MutableStateFlow(0)
+
+    fun retry() {
+        summaryError = null
+        filter.value?.let { errorMap[it.value] = null }
+        retrySignal.value++
+    }
 
     init {
         viewModelScope.launch {
-            filter.collect { filter ->
+            kotlinx.coroutines.flow.combine(filter, retrySignal) { f, _ -> f }.collect { filter ->
                 if (filter == null) {
                     if (summaryPage == null) {
                         YouTube
@@ -61,6 +70,7 @@ constructor(
                                         hideExplicit,
                                     ).filterVideoSongs(hideVideoSongs).filterYoutubeShorts(hideYoutubeShorts)
                             }.onFailure {
+                                summaryError = it
                                 reportException(it)
                             }
                     }
@@ -87,6 +97,7 @@ constructor(
                                         result.continuation,
                                     )
                             }.onFailure {
+                                errorMap[filter.value] = it
                                 reportException(it)
                             }
                     }
