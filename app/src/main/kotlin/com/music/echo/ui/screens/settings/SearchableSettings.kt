@@ -220,6 +220,7 @@ fun getAllSearchableSettings(): List<SearchableSetting> {
             SearchableSetting(stringResource(R.string.queue), stringResource(R.string.queue_desc), "Player and audio", "settings/player"),
             SearchableSetting(stringResource(R.string.quick_picks), stringResource(R.string.quick_picks_desc), "Content", "settings/content"),
             SearchableSetting(stringResource(R.string.randomize_home_order), stringResource(R.string.randomize_home_order_desc), "Content", "settings/content"),
+            SearchableSetting(stringResource(R.string.customize_home), stringResource(R.string.customize_home_desc), "Content", "settings/content"),
             SearchableSetting(stringResource(R.string.remember_shuffle_and_repeat), stringResource(R.string.remember_shuffle_and_repeat_desc), "Player and audio", "settings/player"),
             SearchableSetting(stringResource(R.string.reset), stringResource(R.string.reset_desc), "Appearance", "settings/appearance"),
             SearchableSetting(stringResource(R.string.restart), stringResource(R.string.restart_desc), "Appearance", "settings/appearance"),

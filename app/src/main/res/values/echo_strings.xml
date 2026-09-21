@@ -835,6 +835,10 @@
     <string name="unpin_playlist">Unpin playlist</string>
     <string name="randomize_home_order">Randomize Home Screen Order</string>
     <string name="randomize_home_order_desc">Randomly reorder home screen sections with weighted priorities</string>
+    <string name="customize_home">Customize Home</string>
+    <string name="customize_home_desc">Reorder and show or hide home screen sections</string>
+    <string name="customize_home_hint">Drag to reorder. Turn sections off to hide them from Home.</string>
+    <string name="reset_home_customization">Reset to default</string>
 
     <!-- Daily Discover -->
     <string name="daily_discover_sounds_like">Sounds like %1$s</string>

@@ -41,6 +41,7 @@ import echo.music.iad1tya.ui.screens.settings.AppearanceSettings
 import echo.music.iad1tya.ui.screens.settings.GlassEffectSettings
 import echo.music.iad1tya.ui.screens.settings.BackupAndRestore
 import echo.music.iad1tya.ui.screens.settings.ContentSettings
+import echo.music.iad1tya.ui.screens.settings.HomeSectionSettings
 import echo.music.iad1tya.ui.screens.settings.UptimeScreen
 import echo.music.iad1tya.ui.screens.settings.DarkMode
 import echo.music.iad1tya.ui.screens.settings.PlayerSettings
@@ -359,6 +360,10 @@ fun NavGraphBuilder.navigationBuilder(
         arguments = listOf(navArgument("highlightKey") { type = NavType.StringType; nullable = true })
     ) { backStackEntry ->
         ContentSettings(navController, scrollBehavior, highlightKey = backStackEntry.arguments?.getString("highlightKey"))
+    }
+
+    composable("settings/home_sections") {
+        HomeSectionSettings(navController, scrollBehavior)
     }
 
     composable("uptime") {

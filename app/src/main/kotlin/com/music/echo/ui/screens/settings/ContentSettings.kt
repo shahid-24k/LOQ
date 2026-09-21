@@ -1205,6 +1205,13 @@ highlightKey: String? = null) {
             title = stringResource(R.string.misc),
             items = listOf(
                 Material3SettingsItem(
+    isHighlighted = (highlightKey == stringResource(R.string.customize_home)),
+                    icon = painterResource(R.drawable.tune),
+                    title = { Text(stringResource(R.string.customize_home)) },
+                    description = { Text(stringResource(R.string.customize_home_desc)) },
+                    onClick = { navController.navigate("settings/home_sections") }
+                ),
+                Material3SettingsItem(
     isHighlighted = (highlightKey == stringResource(R.string.randomize_home_order)),
                     icon = painterResource(R.drawable.shuffle),
                     title = { Text(stringResource(R.string.randomize_home_order)) },

@@ -115,6 +115,8 @@ import echo.music.iad1tya.constants.InnerTubeCookieKey
 import echo.music.iad1tya.constants.ListItemHeight
 import echo.music.iad1tya.constants.ListThumbnailSize
 import echo.music.iad1tya.constants.RandomizeHomeOrderKey
+import echo.music.iad1tya.constants.HomeSectionOrderKey
+import echo.music.iad1tya.constants.HiddenHomeSectionsKey
 import echo.music.iad1tya.constants.ShowSpeedDialKey
 import echo.music.iad1tya.constants.SmallGridThumbnailHeight
 import echo.music.iad1tya.constants.ThumbnailCornerRadius
@@ -603,6 +605,8 @@ fun HomeScreen(
     val accountImageUrl by viewModel.accountImageUrl.collectAsState()
     val innerTubeCookie by rememberPreference(InnerTubeCookieKey, "")
     val (randomizeHomeOrder) = rememberPreference(RandomizeHomeOrderKey, true)
+    val (homeSectionOrder) = rememberPreference(HomeSectionOrderKey, "")
+    val (hiddenHomeSections) = rememberPreference(HiddenHomeSectionsKey, "")
     val (showSpeedDial) = rememberPreference(ShowSpeedDialKey, true)
 
 
@@ -806,6 +810,8 @@ fun HomeScreen(
     val homeSections = remember(
         randomizeHomeOrder,
         randomSeed,
+        homeSectionOrder,
+        hiddenHomeSections,
         speedDialItems,
         quickPicks,
         dailyDiscover,
@@ -836,6 +842,22 @@ fun HomeScreen(
         }
 
         if (explorePage?.moodAndGenres != null) list.add(HomeSection.MoodAndGenres)
+
+        val hiddenIds = hiddenHomeSections.split(",").map { it.trim() }.filter { it.isNotEmpty() }.toSet()
+        if (hiddenIds.isNotEmpty()) {
+            list.removeAll { it.id in hiddenIds }
+        }
+
+        val customOrder = homeSectionOrder.split(",").map { it.trim() }.filter { it.isNotEmpty() }
+        if (customOrder.isNotEmpty()) {
+            val orderIndex = customOrder.withIndex().associate { (i, id) -> id to i }
+            return@remember list.sortedWith(
+                compareBy(
+                    { orderIndex[it.id] ?: Int.MAX_VALUE },
+                    { -it.baseWeight }
+                )
+            )
+        }
 
         if (randomizeHomeOrder) {
             list.sortedByDescending { section ->
