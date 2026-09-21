@@ -455,8 +455,6 @@
     <string name="color_white">Λευκό</string>
     <string name="color_light_gray">Ανοιχτό γκρι</string>
     <string name="color_black">Μαύρο</string>
-    <string name="modify_with_ai">Τροποποίηστε με Τεχνητή Νοημοσύνη</string>
-    <string name="modify_with_ai_desc">Τροποποίηστε την λίστα αναπαραγωγής με οδηγίες από την Τεχνητή Νοημοσύνη</string>
     <string name="ai_modify_prompt_hint">π.χ., Βγάλε λυπητερά τραγούδια, πρόσθεσε ακούσματα των 90s</string>
     <string name="enable_haptics">Ενεργοποίηση αφής</string>
     <string name="enable_haptics_desc">Παροχή απτικής ανάδρασης κατά την κύλιση, το κλικ και την αλληλεπίδραση με την εφαρμογή</string>

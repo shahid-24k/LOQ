@@ -455,8 +455,6 @@
     <string name="color_white">Fehér</string>
     <string name="color_light_gray">Világosszürke</string>
     <string name="color_black">Fekete</string>
-    <string name="modify_with_ai">Módosítás MI-vel</string>
-    <string name="modify_with_ai_desc">Lejátszási lista módosítása mesterséges intelligencia utasításaival</string>
     <string name="ai_modify_prompt_hint">pl.: Törölj ki szomorú dalokat, adj hozzá néhány 90-es évekbeli slágert</string>
     <string name="enable_haptics">Haptikus jelzések engedélyezése</string>
     <string name="enable_haptics_desc">Haptikus visszajelzést ad görgetés, kattintás és az alkalmazással való interakció közben</string>

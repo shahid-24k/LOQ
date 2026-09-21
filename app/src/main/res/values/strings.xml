@@ -205,8 +205,6 @@
     <string name="create_playlist">Create playlist</string>
     <string name="playlist_name">Playlist name</string>
     <string name="error_playlist_name_empty">Playlist name cannot be empty.</string>
-    <string name="modify_with_ai">Modify with AI</string>
-    <string name="modify_with_ai_desc">Modify playlist using AI instructions</string>
     <string name="ai_modify_prompt_hint">e.g., Remove sad songs, add some 90s hits</string>
 
     <string name="edit_artist">Edit artist</string>
@@ -572,21 +570,13 @@
     <string name="advanced_login_desc">Manage Login with token settings</string>
     <string name="ai_api_key_desc">Configure AI settings for API Key</string>
     <string name="ai_base_url_desc">Configure AI settings for Base URL</string>
-    <string name="ai_deepl_formality_desc">Configure AI settings for Formality</string>
-    <string name="ai_deepl_formality_default_desc">Configure AI settings for Default</string>
-    <string name="ai_deepl_formality_less_desc">Configure AI settings for Less Formal</string>
-    <string name="ai_deepl_formality_more_desc">Configure AI settings for More Formal</string>
     <string name="ai_lyrics_translation_desc">Configure AI settings for AI Hub</string>
     <string name="ai_model_desc">Configure AI settings for Model</string>
     <string name="ai_provider_desc">Configure AI settings for Provider</string>
     <string name="ai_provider_claude_help_desc">Configure AI settings for Visit console.anthropic.com/settings/keys</string>
-    <string name="ai_provider_deepl_help_desc">Configure AI settings for Visit deepl.com/pro-api for free and paid keys</string>
-    <string name="ai_provider_gemini_help_desc">Configure AI settings for Visit aistudio.google.com/apikey</string>
     <string name="ai_provider_help_desc">Configure AI settings for Get API Keys</string>
-    <string name="ai_provider_mistral_help_desc">Configure AI settings for Visit console.mistral.ai/api-keys</string>
     <string name="ai_provider_nvidia_help_desc">Configure AI settings for Visit build.nvidia.com for API keys</string>
     <string name="ai_provider_openai_help_desc">Configure AI settings for Visit platform.openai.com/api-keys</string>
-    <string name="ai_provider_openrouter_help_desc">Configure AI settings for Visit openrouter.ai for free and paid models</string>
     <string name="ai_provider_perplexity_help_desc">Configure AI settings for Visit perplexity.ai/settings/api</string>
     <string name="ai_provider_xai_help_desc">Configure AI settings for Visit console.x.ai</string>
     <string name="ai_setup_guide_desc">Configure AI settings for API Credentials</string>

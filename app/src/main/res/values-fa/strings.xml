@@ -477,6 +477,4 @@
     <string name="ai_recommendations">پیشنهاد های هوش مصنوعی</string>
     <string name="ai_recommendations_desc">بروزرسانی یک لیست پخش شخصی بر اساس سلیقه شما به طور روزانه</string>
     <string name="ai_recommendations_refresh">تازه سازی پیشنهاد ها</string>
-    <string name="modify_with_ai_desc">تغییر لیست پخش با هوش مصنوعی</string>
-    <string name="modify_with_ai">تغییر با هوش مصنوعی</string>
 </resources>

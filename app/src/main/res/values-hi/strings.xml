@@ -188,8 +188,6 @@
     <string name="export_as_csv">CSV के रूप में निर्यात करें</string>
     <string name="export_playlist_desc">प्लेलिस्ट के गानों को CSV फ़ाइल में निर्यात करें</string>
     <string name="export_successful">प्लेलिस्ट सफलतापूर्वक निर्यात की गई</string>
-    <string name="modify_with_ai">AI के साथ संशोधित करें</string>
-    <string name="modify_with_ai_desc">AI निर्देशों का उपयोग करके प्लेलिस्ट संशोधित करें</string>
     <string name="ai_modify_prompt_hint">जैसे, उदास गाने हटाएँ, कुछ 90 के दशक के हिट जोड़ें</string>
     <string name="edit_artist">कलाकार संपादित करें</string>
     <string name="artist_name">कलाकार का नाम</string>

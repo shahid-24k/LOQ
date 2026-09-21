@@ -456,6 +456,4 @@
     <string name="enable_haptics_desc">アプリのスクロール、クリック、操作時にフィードバックを提供</string>
     <string name="enable_haptics">ハプティックを有効にする</string>
     <string name="ai_modify_prompt_hint">例: 悲しい曲を削除し、90\'sのヒットを追加</string>
-    <string name="modify_with_ai_desc">AIを利用してプレイリストを変更する</string>
-    <string name="modify_with_ai">AIで修正する</string>
 </resources>
