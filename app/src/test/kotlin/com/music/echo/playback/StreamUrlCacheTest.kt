@@ -143,6 +143,18 @@ class StreamUrlCacheTest {
         assertNull(cache["song_HIGH"])
     }
 
+    @Test
+    fun `generation counter is pruned when LRU evicts the entry`() {
+        val cache = StreamUrlCache(maxEntries = 2)
+        cache["first_HIGH"] = "https://example.com/first" to Long.MAX_VALUE
+        cache.invalidate("first_HIGH") // generation now 1, entry gone
+        cache["first_HIGH"] = "https://example.com/first-again" to Long.MAX_VALUE // back in, generation still 1
+        cache["second_HIGH"] = "https://example.com/second" to Long.MAX_VALUE
+        cache["third_HIGH"] = "https://example.com/third" to Long.MAX_VALUE // evicts "first_HIGH"
+
+        assertEquals(0L, cache.generation("first_HIGH"))
+    }
+
     @Test(expected = IllegalArgumentException::class)
     fun `maxEntries must be positive`() {
         StreamUrlCache(maxEntries = 0)

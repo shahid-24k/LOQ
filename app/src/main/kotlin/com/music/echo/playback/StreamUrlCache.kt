@@ -32,8 +32,13 @@ internal class StreamUrlCache(
 
     private val entries =
         object : LinkedHashMap<String, Entry>(0, 0.75f, true) {
-            override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, Entry>): Boolean =
-                size > maxEntries
+            override fun removeEldestEntry(eldest: MutableMap.MutableEntry<String, Entry>): Boolean {
+                val shouldRemove = size > maxEntries
+                if (shouldRemove) {
+                    generations.remove(eldest.key)
+                }
+                return shouldRemove
+            }
         }
     private val generations = HashMap<String, Long>()
 
