@@ -625,6 +625,41 @@ fun LocalPlaylistScreen(
         }
     }
 
+    val exportM3uLauncher = rememberLauncherForActivityResult(ActivityResultContracts.CreateDocument("audio/x-mpegurl")) { uri ->
+        if (uri != null) {
+            coroutineScope.launch(Dispatchers.IO) {
+                try {
+                    context.contentResolver.openOutputStream(uri)?.use { outputStream ->
+                        outputStream.bufferedWriter().use { writer ->
+                            writer.write("#EXTM3U\n")
+                            songs.forEach { playlistSong ->
+                                val song = playlistSong.song
+                                val artist = song.artists.joinToString("; ") { it.name }
+                                val title = song.song.title
+                                val duration = song.song.duration
+                                writer.write("#EXTINF:$duration,$artist - $title\n")
+                                val location = if (song.song.isLocal) {
+                                    song.song.id
+                                } else {
+                                    "https://music.youtube.com/watch?v=${song.song.id}"
+                                }
+                                writer.write("$location\n")
+                            }
+                        }
+                    }
+                    withContext(Dispatchers.Main) {
+                        snackbarHostState.showSnackbar(exportSuccessMsg)
+                    }
+                } catch (e: Exception) {
+                    reportException(e)
+                    withContext(Dispatchers.Main) {
+                        Toast.makeText(context, "Export failed", Toast.LENGTH_SHORT).show()
+                    }
+                }
+            }
+        }
+    }
+
     if (isSearching) {
         BackHandler {
             isSearching = false
@@ -881,6 +916,7 @@ fun LocalPlaylistScreen(
                                 onshowDeletePlaylistDialog = { showDeletePlaylistDialog = true },
                                 onStartSearch = { isSearching = true },
                                 onExport = { exportCsvLauncher.launch("${playlist.playlist.name}_export.csv") },
+                                onExportM3u = { exportM3uLauncher.launch("${playlist.playlist.name}_export.m3u") },
                                 snackbarHostState = snackbarHostState,
                                 modifier = Modifier.animateItem()
                             )
@@ -1276,6 +1312,7 @@ fun LocalPlaylistHeader(
     onshowDeletePlaylistDialog: () -> Unit,
     onStartSearch: () -> Unit,
     onExport: () -> Unit,
+    onExportM3u: () -> Unit,
     snackbarHostState: SnackbarHostState,
     modifier: Modifier,
 ) {
@@ -1791,6 +1828,9 @@ fun LocalPlaylistHeader(
                             },
                             onExport = {
                                 onExport()
+                            },
+                            onExportM3u = {
+                                onExportM3u()
                             },
                             onQueue = {
                                 playerConnection.addToQueue(

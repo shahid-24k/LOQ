@@ -201,6 +201,7 @@
     <string name="choose_playlist">Choose playlist</string>
     <string name="edit_playlist">Edit playlist</string>
     <string name="export_as_csv">Export as CSV</string>
+    <string name="export_as_m3u">Export as M3U</string>
     <string name="export_playlist_desc">Export playlist songs to a CSV file</string>
     <string name="export_successful">Playlist exported successfully</string>
     <string name="create_playlist">Create playlist</string>

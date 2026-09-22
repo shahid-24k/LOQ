@@ -33,6 +33,7 @@ fun LocalPlaylistMenu(
     onDelete: () -> Unit,
     onDownload: () -> Unit,
     onExport: () -> Unit,
+    onExportM3u: () -> Unit,
     onQueue: () -> Unit,
     onDismiss: () -> Unit
 ) {
@@ -116,6 +117,23 @@ fun LocalPlaylistMenu(
                 },
                 onClick = {
                     onExport()
+                    onDismiss()
+                }
+            )
+        )
+
+        add(
+            Material3MenuItemData(
+                title = { Text(stringResource(R.string.export_as_m3u)) },
+                description = { Text(stringResource(R.string.export_playlist_desc)) },
+                icon = {
+                    Icon(
+                        painter = painterResource(R.drawable.file_export),
+                        contentDescription = null
+                    )
+                },
+                onClick = {
+                    onExportM3u()
                     onDismiss()
                 }
             )
