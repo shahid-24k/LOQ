@@ -436,7 +436,8 @@ fun OnlineSearchResult(
                     }
                 }
 
-                if (searchFilter == null && viewModel.summaryError != null) {
+                val activeFilter = searchFilter
+                if (activeFilter == null && viewModel.summaryError != null) {
                     item {
                         Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                             EmptyPlaceholder(
@@ -448,7 +449,7 @@ fun OnlineSearchResult(
                             }
                         }
                     }
-                } else if (searchFilter != null && viewModel.errorMap[searchFilter.value] != null) {
+                } else if (activeFilter != null && viewModel.errorMap[activeFilter.value] != null) {
                     item {
                         Column(horizontalAlignment = androidx.compose.ui.Alignment.CenterHorizontally, modifier = Modifier.fillMaxWidth()) {
                             EmptyPlaceholder(
@@ -460,7 +461,7 @@ fun OnlineSearchResult(
                             }
                         }
                     }
-                } else if (searchFilter == null && searchSummary == null || searchFilter != null && itemsPage == null) {
+                } else if (activeFilter == null && searchSummary == null || activeFilter != null && itemsPage == null) {
                     item {
                         ShimmerHost {
                             repeat(8) {
