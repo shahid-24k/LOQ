@@ -199,40 +199,13 @@ fun UpdateScreen(navController: NavHostController) {
     }
 
     fun triggerUpdateCheck() {
-        status = EchoUpdateStatus.Checking
-        scope.launch {
-            
-            delay(1000L)
-            checkForUpdate(
-                context = context,
-                onSuccess = { tag, isAvailable, changelog, size, date, description, imageUrl, apkUrl ->
-                    saveLastCheckedTime(context, LocalDateTime.now().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h:mm a")))
-                    saveUpdateAvailableState(context, isAvailable)
-                    status = if (isAvailable) {
-                        EchoUpdateStatus.Available(
-                            version = tag,
-                            changelog = changelog,
-                            size = size,
-                            releaseDate = date,
-                            description = description,
-                            imageUrl = imageUrl,
-                            apkUrl = apkUrl
-                        )
-                    } else {
-                        EchoUpdateStatus.NoUpdate(tag)
-                    }
-                },
-                onError = {
-                    status = EchoUpdateStatus.Error(context.getString(R.string.cant_check_updates))
-                }
-            )
-        }
+        saveLastCheckedTime(context, LocalDateTime.now().format(DateTimeFormatter.ofPattern("d MMMM yyyy, h:mm a")))
+        saveUpdateAvailableState(context, false)
+        status = EchoUpdateStatus.NoUpdate(BuildConfig.VERSION_NAME)
     }
 
     LaunchedEffect(Unit) {
-        if (autoUpdateCheckEnabled) {
-            triggerUpdateCheck()
-        }
+        // Disabled automatic update check for LOQ
     }
 
     val scrollBehavior = TopAppBarDefaults.exitUntilCollapsedScrollBehavior()
@@ -571,35 +544,32 @@ const val KEY_BETA_UPDATES = "beta_updates"
 const val KEY_UPDATE_AVAILABLE = "update_available"
 
 fun getUpdateAvailableState(context: Context): Boolean {
-    val sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    return sharedPrefs.getBoolean(KEY_UPDATE_AVAILABLE, false)
+    return false
 }
 
 fun saveUpdateAvailableState(context: Context, available: Boolean) {
     val sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    sharedPrefs.edit().putBoolean(KEY_UPDATE_AVAILABLE, available).apply()
+    sharedPrefs.edit().putBoolean(KEY_UPDATE_AVAILABLE, false).apply()
 }
 
 fun getAutoUpdateCheckSetting(context: Context): Boolean {
-    val sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    return sharedPrefs.getBoolean(KEY_AUTO_UPDATE_CHECK, true)
+    return false
 }
 
 fun saveAutoUpdateCheckSetting(context: Context, enabled: Boolean) {
     val sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    sharedPrefs.edit().putBoolean(KEY_AUTO_UPDATE_CHECK, enabled).apply()
+    sharedPrefs.edit().putBoolean(KEY_AUTO_UPDATE_CHECK, false).apply()
 }
 
 const val KEY_UPDATE_NOTIFICATIONS = "update_notifications"
 
 fun getUpdateNotificationsSetting(context: Context): Boolean {
-    val sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    return sharedPrefs.getBoolean(KEY_UPDATE_NOTIFICATIONS, true)
+    return false
 }
 
 fun saveUpdateNotificationsSetting(context: Context, enabled: Boolean) {
     val sharedPrefs = context.getSharedPreferences(PREFS_NAME, Context.MODE_PRIVATE)
-    sharedPrefs.edit().putBoolean(KEY_UPDATE_NOTIFICATIONS, enabled).apply()
+    sharedPrefs.edit().putBoolean(KEY_UPDATE_NOTIFICATIONS, false).apply()
 }
 
 fun saveLastCheckedTime(context: Context, timestamp: String) {
@@ -666,93 +636,8 @@ suspend fun checkForUpdate(
     onSuccess: (tag: String, isAvailable: Boolean, changelog: List<ChangelogSection>, size: String, date: String, description: String?, imageUrl: String?, apkUrl: String?) -> Unit,
     onError: () -> Unit,
 ) {
-    withContext(Dispatchers.IO) {
-        try {
-            val url = URL("https://api.github.com/repos/EchoMusicApp/Echo-Music/releases/latest")
-            val json = url.openStream().bufferedReader().use { it.readText() }
-            val targetRelease = JSONObject(json)
-            
-            val currentVersion = BuildConfig.VERSION_NAME
-            val targetTagName = targetRelease.getString("tag_name")
-            val currentClean = currentVersion.removePrefix("b").removePrefix("v").trim()
-            val targetClean = targetTagName.removePrefix("b").removePrefix("v").trim()
-            val shouldShow = currentClean != targetClean
-
-            if (shouldShow) {
-                val tagWithPrefix = targetRelease.getString("tag_name")
-                val displayTag = tagWithPrefix
-
-                
-                val changelogList = mutableListOf<ChangelogSection>()
-                var description: String? = null
-                var imageUrl: String? = null
-                try {
-                    val changelogUrl =
-                        URL("https://github.com/EchoMusicApp/Echo-Music/releases/download/$tagWithPrefix/changelog.json")
-                    val changelogJson = changelogUrl.openStream().bufferedReader().use { it.readText() }
-                    val changelogData = JSONObject(changelogJson)
-
-                    description = changelogData.optString("description").takeIf { it.isNotEmpty() }
-                    imageUrl = changelogData.optString("image").takeIf { it.isNotEmpty() }
-
-                    val changelogArray = changelogData.getJSONArray("changelog")
-                    for (j in 0 until changelogArray.length()) {
-                        val sectionObj = changelogArray.getJSONObject(j)
-                        val title = sectionObj.getString("title")
-                        val itemsArray = sectionObj.getJSONArray("items")
-                        val itemsList = mutableListOf<String>()
-                        for (k in 0 until itemsArray.length()) {
-                            itemsList.add(itemsArray.getString(k))
-                        }
-                        changelogList.add(ChangelogSection(title, itemsList))
-                    }
-                } catch (e: Exception) {
-                    var body = targetRelease.optString("body", context.getString(R.string.no_changelog_available))
-                    
-                    val imageRegex = Regex("!\\[(.*?)\\]\\((.*?)\\)")
-                    val match = imageRegex.find(body)
-                    if (match != null) {
-                        imageUrl = match.groupValues[2]
-                        body = body.replace(match.value, "").trim()
-                    }
-                    val (parsedDesc, parsedSections) = parseMarkdownToSections(body)
-                    description = parsedDesc ?: body.takeIf { parsedSections.isEmpty() }
-                    changelogList.addAll(parsedSections)
-                }
-
-                val publishedAt = targetRelease.getString("published_at")
-                val formattedReleaseDate = formatGitHubDate(publishedAt)
-                val assets = targetRelease.getJSONArray("assets")
-
-                var apkSizeInMB = ""
-                var apkDownloadUrl = ""
-                for (j in 0 until assets.length()) {
-                    val asset = assets.getJSONObject(j)
-                    val assetName = asset.getString("name")
-                    if (assetName.endsWith(".apk", ignoreCase = true) && !assetName.lowercase().contains("debug")) {
-                        val apkSizeInBytes = asset.getLong("size")
-                        apkSizeInMB = String.format("%.1f", apkSizeInBytes / (1024.0 * 1024.0))
-                        apkDownloadUrl = asset.getString("browser_download_url")
-                        break
-                    }
-                }
-
-                if (apkDownloadUrl.isNotEmpty()) {
-                    withContext(Dispatchers.Main) {
-                        onSuccess(displayTag, true, changelogList, apkSizeInMB, formattedReleaseDate, description, imageUrl, apkDownloadUrl)
-                    }
-                    return@withContext
-                }
-            }
-
-            
-            withContext(Dispatchers.Main) {
-                onSuccess(currentVersion, false, emptyList(), "", "", null, null, null)
-            }
-        } catch (e: Exception) {
-            Log.e("UpdateCheck", "Error checking for updates: ${e.message}", e)
-            withContext(Dispatchers.Main) { onError() }
-        }
+    withContext(Dispatchers.Main) {
+        onSuccess(BuildConfig.VERSION_NAME, false, emptyList(), "", "", null, null, null)
     }
 }
 const val KEY_LAST_SEEN_CHANGELOG_VERSION = "last_seen_changelog_version"

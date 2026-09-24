@@ -90,17 +90,6 @@ fun UpdateSettings(
     LaunchedEffect(Unit) {
         autoClearOldApks(context)
         apkCount = getDownloadedApkCount(context)
-
-        kotlinx.coroutines.withContext(kotlinx.coroutines.Dispatchers.IO) {
-            try {
-                val url = java.net.URL("https://api.github.com/repos/EchoMusicApp/Echo-Music/releases/latest")
-                val json = url.openStream().bufferedReader().use { it.readText() }
-                val targetRelease = JSONObject(json)
-                releaseNotes = targetRelease.getString("body")
-            } catch(e: Exception) {
-                e.printStackTrace()
-            }
-        }
     }
 
     if (showInfoDialog) {
