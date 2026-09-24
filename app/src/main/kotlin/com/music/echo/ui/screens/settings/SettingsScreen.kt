@@ -58,6 +58,10 @@ import echo.music.iad1tya.ui.component.Material3SettingsItem
 import echo.music.iad1tya.ui.screens.Screens
 import echo.music.iad1tya.ui.utils.backToMain
 import echo.music.iad1tya.echomusic.updater.getUpdateAvailableState
+import echo.music.iad1tya.constants.UserSavedNameKey
+import echo.music.iad1tya.utils.rememberPreference
+import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.ui.text.input.KeyboardCapitalization
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -74,6 +78,11 @@ highlightKey: String? = null) {
     var searchQuery by rememberSaveable { mutableStateOf("") }
     val searchLower = searchQuery.lowercase()
 
+    val (userSavedName, setUserSavedName) = rememberPreference(UserSavedNameKey, "")
+    var showEditNameDialog by rememberSaveable { mutableStateOf(false) }
+    var editingNameInput by rememberSaveable { mutableStateOf("") }
+
+    val yourNameText = stringResource(R.string.your_name)
     val accountText = stringResource(R.string.account)
     val appearanceText = stringResource(R.string.appearance)
     val playerText = stringResource(R.string.player_and_audio)
@@ -95,6 +104,50 @@ highlightKey: String? = null) {
     val backupDesc = stringResource(R.string.setting_desc_backup)
     val systemUpdateDesc = stringResource(R.string.setting_desc_update)
     val aboutDesc = stringResource(R.string.setting_desc_about)
+
+    if (showEditNameDialog) {
+        AlertDialog(
+            onDismissRequest = { showEditNameDialog = false },
+            title = {
+                Text(
+                    text = stringResource(R.string.your_name),
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                )
+            },
+            text = {
+                OutlinedTextField(
+                    value = editingNameInput,
+                    onValueChange = { editingNameInput = it },
+                    label = { Text(stringResource(R.string.your_name)) },
+                    placeholder = { Text(stringResource(R.string.your_name)) },
+                    singleLine = true,
+                    shape = RoundedCornerShape(16.dp),
+                    keyboardOptions = KeyboardOptions(capitalization = KeyboardCapitalization.Words),
+                    modifier = Modifier.fillMaxWidth()
+                )
+            },
+            confirmButton = {
+                TextButton(
+                    onClick = {
+                        val trimmed = editingNameInput.trim()
+                        if (trimmed.isNotEmpty()) {
+                            setUserSavedName(trimmed)
+                            showEditNameDialog = false
+                        }
+                    },
+                    enabled = editingNameInput.trim().isNotEmpty()
+                ) {
+                    Text(stringResource(R.string.save), fontWeight = FontWeight.Bold)
+                }
+            },
+            dismissButton = {
+                TextButton(onClick = { showEditNameDialog = false }) {
+                    Text(stringResource(R.string.cancel))
+                }
+            },
+            shape = RoundedCornerShape(24.dp)
+        )
+    }
 
     val scrollState = rememberScrollState()
     Column(
@@ -151,6 +204,21 @@ highlightKey: String? = null) {
         )
 
         val itemsList = buildList {
+            if (yourNameText.lowercase().contains(searchLower) || "name".contains(searchLower) || userSavedName.lowercase().contains(searchLower)) {
+                add(
+                    Material3SettingsItem(
+                        isHighlighted = (highlightKey == yourNameText),
+                        icon = painterResource(R.drawable.account),
+                        title = { Text(yourNameText) },
+                        description = { Text(userSavedName.ifBlank { stringResource(R.string.not_set) }) },
+                        onClick = {
+                            editingNameInput = userSavedName
+                            showEditNameDialog = true
+                        }
+                    )
+                )
+            }
+
             if (accountText.lowercase().contains(searchLower) || accountDesc.lowercase().contains(searchLower)) {
                 add(
                     Material3SettingsItem(

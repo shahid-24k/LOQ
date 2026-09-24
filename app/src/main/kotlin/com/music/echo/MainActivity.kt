@@ -48,6 +48,7 @@ import androidx.compose.animation.slideOutHorizontally
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.isSystemInDarkTheme
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
 import androidx.compose.foundation.layout.Column
@@ -211,6 +212,8 @@ import echo.music.iad1tya.ui.player.BottomSheetPlayer
 import echo.music.iad1tya.ui.screens.Screens
 import echo.music.iad1tya.ui.screens.SettingDialoge
 import echo.music.iad1tya.ui.screens.WelcomeDialog
+import echo.music.iad1tya.ui.screens.LoqOnboardingDialog
+import androidx.compose.ui.text.style.TextOverflow
 import echo.music.iad1tya.ui.screens.navigationBuilder
 import echo.music.iad1tya.ui.screens.settings.DarkMode
 import echo.music.iad1tya.ui.screens.settings.NavigationTab
@@ -902,11 +905,13 @@ class MainActivity : ComponentActivity() {
                 var showSettingDialoge by remember { mutableStateOf(false) }
 
                 val (lastOpenedVersionCode, setLastOpenedVersionCode) = rememberPreference(echo.music.iad1tya.constants.LastOpenedVersionCodeKey, -1)
-                var showWelcomeDialog by remember { mutableStateOf(false) }
+                val (userSavedName, setUserSavedName) = rememberPreference(echo.music.iad1tya.constants.UserSavedNameKey, "")
+                val (onboardingCompleted, setOnboardingCompleted) = rememberPreference(echo.music.iad1tya.constants.OnboardingCompletedKey, false)
+                var showOnboardingDialog by remember { mutableStateOf(false) }
 
-                LaunchedEffect(lastOpenedVersionCode) {
-                    if (lastOpenedVersionCode < BuildConfig.VERSION_CODE) {
-                        showWelcomeDialog = true
+                LaunchedEffect(onboardingCompleted, userSavedName) {
+                    if (!onboardingCompleted && userSavedName.isBlank()) {
+                        showOnboardingDialog = true
                     }
                 }
 
@@ -940,8 +945,22 @@ class MainActivity : ComponentActivity() {
                     onDispose { removeOnNewIntentListener(listener) }
                 }
 
+                val currentHour = remember { java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY) }
+                val timeGreeting = when (currentHour) {
+                    in 5..11 -> stringResource(R.string.good_morning)
+                    in 12..16 -> stringResource(R.string.good_afternoon)
+                    else -> stringResource(R.string.good_evening)
+                }
+                val homeGreeting = remember(timeGreeting, userSavedName) {
+                    if (userSavedName.isNotBlank()) {
+                        "$timeGreeting, $userSavedName"
+                    } else {
+                        timeGreeting
+                    }
+                }
+
                 val currentTitle = when (navBackStackEntry?.destination?.route) {
-                    Screens.Home.route -> "Echo Music"
+                    Screens.Home.route -> homeGreeting
                     Screens.Search.route -> stringResource(R.string.search)
                     Screens.Library.route -> stringResource(R.string.filter_library)
                     Screens.ListenTogether.route -> stringResource(R.string.together)
@@ -1027,13 +1046,35 @@ class MainActivity : ComponentActivity() {
                                 Row {
                                     TopAppBar(
                                         title = {
-                                            Text(
-                                                text = currentTitle,
-                                                style = MaterialTheme.typography.titleLarge.copy(
-                                                    fontWeight = FontWeight.Bold,
-                                                    fontSize = 24.sp
-                                                ),
-                                            )
+                                            if (navBackStackEntry?.destination?.route == Screens.Home.route) {
+                                                Column(verticalArrangement = Arrangement.Center) {
+                                                    Text(
+                                                        text = "LOQ",
+                                                        style = MaterialTheme.typography.labelSmall.copy(
+                                                            fontWeight = FontWeight.ExtraBold,
+                                                            letterSpacing = 2.5.sp,
+                                                            color = MaterialTheme.colorScheme.primary
+                                                        )
+                                                    )
+                                                    Text(
+                                                        text = homeGreeting,
+                                                        style = MaterialTheme.typography.titleLarge.copy(
+                                                            fontWeight = FontWeight.Bold,
+                                                            fontSize = 22.sp
+                                                        ),
+                                                        maxLines = 1,
+                                                        overflow = TextOverflow.Ellipsis
+                                                    )
+                                                }
+                                            } else {
+                                                Text(
+                                                    text = currentTitle,
+                                                    style = MaterialTheme.typography.titleLarge.copy(
+                                                        fontWeight = FontWeight.Bold,
+                                                        fontSize = 24.sp
+                                                    ),
+                                                )
+                                            }
                                         },
                                         actions = {
                                             if (showHistoryButton) {
@@ -1452,11 +1493,13 @@ class MainActivity : ComponentActivity() {
                         )
                     }
 
-                    if (showWelcomeDialog) {
-                        WelcomeDialog(
-                            onDismissRequest = {
-                                showWelcomeDialog = false
+                    if (showOnboardingDialog) {
+                        LoqOnboardingDialog(
+                            onNameSaved = { name ->
+                                setUserSavedName(name)
+                                setOnboardingCompleted(true)
                                 setLastOpenedVersionCode(BuildConfig.VERSION_CODE)
+                                showOnboardingDialog = false
                             }
                         )
                     }

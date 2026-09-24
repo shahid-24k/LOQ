@@ -28,6 +28,7 @@ import echo.music.iad1tya.constants.UseLoginForBrowse
 import echo.music.iad1tya.constants.YtmSyncKey
 import echo.music.iad1tya.constants.AudioQualityKey
 import echo.music.iad1tya.constants.AudioQuality
+import echo.music.iad1tya.constants.UserSavedNameKey
 import echo.music.iad1tya.ui.component.Material3SettingsGroup
 import echo.music.iad1tya.ui.component.Material3SettingsItem
 import echo.music.iad1tya.utils.rememberEnumPreference
@@ -52,6 +53,7 @@ fun SettingDialoge(
     }
 
     val (accountEmail, _) = rememberPreference(AccountEmailKey, "")
+    val (userSavedName) = rememberPreference(UserSavedNameKey, "")
     val accountName by homeViewModel.accountName.collectAsState()
     val accountImageUrl by homeViewModel.accountImageUrl.collectAsState()
 
@@ -86,7 +88,7 @@ fun SettingDialoge(
                 items = buildList {
                     add(
                         Material3SettingsItem(
-                            title = { Text(if (isLoggedIn) accountName else "Anonymous") },
+                            title = { Text(if (isLoggedIn) accountName else userSavedName.ifBlank { "User" }) },
                             description = { Text(if (isLoggedIn) accountEmail.ifEmpty { "Logged In" } else "Not Logged In") },
                             icon = painterResource(R.drawable.account),
                             trailingContent = if (isLoggedIn && !accountImageUrl.isNullOrBlank()) {
@@ -186,27 +188,6 @@ fun SettingDialoge(
                     )
                 )
             )
-
-            // Footer Links
-            Row(
-                modifier = Modifier.fillMaxWidth().padding(top = 12.dp, bottom = 12.dp),
-                verticalAlignment = Alignment.CenterVertically,
-                horizontalArrangement = Arrangement.Center
-            ) {
-                Text(
-                    text = "Privacy Policy",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = onSecondaryColor,
-                    modifier = Modifier.clickable { uriHandler.openUri("https://echomusic.fun/p/privacy-policy") }.padding(4.dp)
-                )
-                Text(text = " • ", color = onSecondaryColor, style = MaterialTheme.typography.bodySmall)
-                Text(
-                    text = "Terms of Service",
-                    style = MaterialTheme.typography.bodySmall,
-                    color = onSecondaryColor,
-                    modifier = Modifier.clickable { uriHandler.openUri("https://echomusic.fun/p/toc") }.padding(4.dp)
-                )
-            }
         }
     }
 }

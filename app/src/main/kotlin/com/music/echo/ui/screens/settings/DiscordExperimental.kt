@@ -54,12 +54,12 @@ fun DiscordExperimental(navController: NavController) {
     val (button2Label, onButton2LabelChange) =
         rememberPreference(
             key = DiscordActivityButton2LabelKey,
-            defaultValue = "Go to Echo Music",
+            defaultValue = "LOQ",
         )
     val (button2Enabled, onButton2EnabledChange) =
         rememberPreference(
             key = DiscordActivityButton2EnabledKey,
-            defaultValue = true,
+            defaultValue = false,
         )
 
     val (button1UrlSource, onButton1UrlSourceChange) =
@@ -80,7 +80,7 @@ fun DiscordExperimental(navController: NavController) {
     val (button2CustomUrl, onButton2CustomUrlChange) =
         rememberPreference(
             key = DiscordActivityButton2CustomUrlKey,
-            defaultValue = "https://echomusic.fun",
+            defaultValue = "",
         )
 
     Scaffold { inner ->

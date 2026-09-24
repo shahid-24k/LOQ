@@ -135,8 +135,7 @@ fun UpdateSettings(
                         }
                     },
                     onClick = {
-                        val intent = Intent(Intent.ACTION_VIEW, Uri.parse("https://echomusic.fun"))
-                        context.startActivity(intent)
+                        Toast.makeText(context, context.getString(R.string.app_update_uptodate), Toast.LENGTH_SHORT).show()
                     }
                 ),
                 Material3SettingsItem(
