@@ -213,6 +213,8 @@ import echo.music.iad1tya.ui.screens.Screens
 import echo.music.iad1tya.ui.screens.SettingDialoge
 import echo.music.iad1tya.ui.screens.WelcomeDialog
 import echo.music.iad1tya.ui.screens.LoqOnboardingDialog
+import echo.music.iad1tya.ui.screens.LoqEasterEggDialog
+import echo.music.iad1tya.ui.screens.isEasterEggName
 import androidx.compose.ui.text.style.TextOverflow
 import echo.music.iad1tya.ui.screens.navigationBuilder
 import echo.music.iad1tya.ui.screens.settings.DarkMode
@@ -907,7 +909,9 @@ class MainActivity : ComponentActivity() {
                 val (lastOpenedVersionCode, setLastOpenedVersionCode) = rememberPreference(echo.music.iad1tya.constants.LastOpenedVersionCodeKey, -1)
                 val (userSavedName, setUserSavedName) = rememberPreference(echo.music.iad1tya.constants.UserSavedNameKey, "")
                 val (onboardingCompleted, setOnboardingCompleted) = rememberPreference(echo.music.iad1tya.constants.OnboardingCompletedKey, false)
+                val (easterEggShown, setEasterEggShown) = rememberPreference(echo.music.iad1tya.constants.EasterEggShownKey, false)
                 var showOnboardingDialog by remember { mutableStateOf(false) }
+                var showEasterEggDialog by remember { mutableStateOf(false) }
 
                 LaunchedEffect(onboardingCompleted, userSavedName) {
                     if (!onboardingCompleted && userSavedName.isBlank()) {
@@ -1500,6 +1504,18 @@ class MainActivity : ComponentActivity() {
                                 setOnboardingCompleted(true)
                                 setLastOpenedVersionCode(BuildConfig.VERSION_CODE)
                                 showOnboardingDialog = false
+                                if (!easterEggShown && isEasterEggName(name)) {
+                                    showEasterEggDialog = true
+                                }
+                            }
+                        )
+                    }
+
+                    if (showEasterEggDialog) {
+                        LoqEasterEggDialog(
+                            onContinue = {
+                                setEasterEggShown(true)
+                                showEasterEggDialog = false
                             }
                         )
                     }

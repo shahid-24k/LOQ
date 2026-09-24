@@ -544,6 +544,7 @@ val UseLoginForBrowse = booleanPreferencesKey("useLoginForBrowse")
 val LastOpenedVersionCodeKey = intPreferencesKey("lastOpenedVersionCode")
 val UserSavedNameKey = stringPreferencesKey("userSavedName")
 val OnboardingCompletedKey = booleanPreferencesKey("onboardingCompleted")
+val EasterEggShownKey = booleanPreferencesKey("easterEggShown")
 
 val LanguageCodeToName =
     mapOf(

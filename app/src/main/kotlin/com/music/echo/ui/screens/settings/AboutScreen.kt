@@ -151,9 +151,8 @@ private fun AboutAppCard() {
                 contentAlignment = Alignment.Center
             ) {
                 Image(
-                    painter = painterResource(R.drawable.ic_launcher_nobg),
+                    painter = painterResource(R.drawable.loq_logo_white_transparent),
                     contentDescription = "LOQ Logo",
-                    colorFilter = ColorFilter.tint(if (isDark) Color.White else MaterialTheme.colorScheme.primary),
                     modifier = Modifier.size(56.dp)
                 )
             }
