@@ -119,16 +119,22 @@ android {
             keyPassword = "android"
         }
         create("release") {
+            val configuredStoreFile = (localProperties.getProperty("KEYSTORE_PATH") ?: System.getenv("KEYSTORE_PATH"))?.let { rootProject.file(it) }
+            val loqKeystore = rootProject.file("loq-release.jks")
             val keystoreFile = rootProject.file("keystore.jks")
-            if (keystoreFile.exists()) {
+            if (configuredStoreFile?.exists() == true) {
+                storeFile = configuredStoreFile
+            } else if (loqKeystore.exists()) {
+                storeFile = loqKeystore
+            } else if (keystoreFile.exists()) {
                 storeFile = keystoreFile
             } else {
                 val localKeystore = file("keystore/release.keystore")
                 if (localKeystore.exists()) storeFile = localKeystore
             }
-            storePassword = System.getenv("STORE_PASSWORD")
-            keyAlias = System.getenv("KEY_ALIAS")
-            keyPassword = System.getenv("KEY_PASSWORD")
+            storePassword = localProperties.getProperty("STORE_PASSWORD") ?: System.getenv("STORE_PASSWORD")
+            keyAlias = localProperties.getProperty("KEY_ALIAS") ?: System.getenv("KEY_ALIAS") ?: "loq"
+            keyPassword = localProperties.getProperty("KEY_PASSWORD") ?: System.getenv("KEY_PASSWORD") ?: storePassword
         }
         getByName("debug") {
             keyAlias = "androiddebugkey"

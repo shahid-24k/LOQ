@@ -184,3 +184,5 @@
 -keepclasseswithmembers class echo.music.iad1tya.listentogether.** {
     kotlinx.serialization.KSerializer serializer(...);
 }
+
+-dontwarn com.arthenica.smartexception.java.Exceptions
