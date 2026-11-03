@@ -38,3 +38,7 @@ lastfm-empty/build/
 # Keystores
 *.jks
 *.keystore
+
+# Build distribution & APKs
+dist/
+*.apk

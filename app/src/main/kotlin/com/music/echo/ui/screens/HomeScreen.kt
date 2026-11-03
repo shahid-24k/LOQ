@@ -1,6 +1,11 @@
 package echo.music.iad1tya.ui.screens
+import androidx.compose.ui.unit.sp
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.horizontalScroll
+import androidx.compose.material3.Surface
+import echo.music.iad1tya.constants.UserSavedNameKey
+import echo.music.iad1tya.ui.screens.Screens
 
 
 import androidx.activity.compose.BackHandler
@@ -608,6 +613,7 @@ fun HomeScreen(
     val (homeSectionOrder) = rememberPreference(HomeSectionOrderKey, "")
     val (hiddenHomeSections) = rememberPreference(HiddenHomeSectionsKey, "")
     val (showSpeedDial) = rememberPreference(ShowSpeedDialKey, true)
+    val (userSavedName) = rememberPreference(UserSavedNameKey, "")
 
 
     val isLoggedIn = remember(innerTubeCookie) {
@@ -972,6 +978,13 @@ fun HomeScreen(
                 state = lazylistState,
                 contentPadding = LocalPlayerAwareWindowInsets.current.asPaddingValues()
             ) {
+                item(key = "loq_home_header") {
+                    LoqHomeHeader(
+                        navController = navController,
+                        userSavedName = userSavedName
+                    )
+                }
+
                 item {
                     ChipsRow(
                         chips = homePage?.chips?.filter { 
@@ -1892,6 +1905,156 @@ fun HomeScreen(
                 }
             }
 
+        }
+    }
+}
+
+@Composable
+private fun LoqHomeHeader(
+    navController: NavController,
+    userSavedName: String,
+    modifier: Modifier = Modifier,
+) {
+    val currentHour = remember { java.util.Calendar.getInstance().get(java.util.Calendar.HOUR_OF_DAY) }
+    val greeting = remember(currentHour) {
+        when (currentHour) {
+            in 4..11 -> "Good morning"
+            in 12..16 -> "Good afternoon"
+            else -> "Good evening"
+        }
+    }
+    val personalizedGreeting = remember(greeting, userSavedName) {
+        if (userSavedName.isNotBlank()) "$greeting, $userSavedName ✨"
+        else "$greeting ✨"
+    }
+
+    Column(
+        modifier = modifier
+            .fillMaxWidth()
+            .padding(horizontal = 16.dp)
+            .padding(top = 8.dp, bottom = 10.dp),
+        verticalArrangement = Arrangement.spacedBy(14.dp)
+    ) {
+        // Top branding row
+        Row(
+            modifier = Modifier.fillMaxWidth(),
+            verticalAlignment = Alignment.CenterVertically,
+            horizontalArrangement = Arrangement.SpaceBetween
+        ) {
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(10.dp)
+            ) {
+                Box(
+                    modifier = Modifier
+                        .size(40.dp)
+                        .clip(CircleShape)
+                        .background(MaterialTheme.colorScheme.surfaceContainerHigh),
+                    contentAlignment = Alignment.Center
+                ) {
+                    Image(
+                        painter = painterResource(R.drawable.loq_logo_white_transparent),
+                        contentDescription = "LOQ Logo",
+                        modifier = Modifier.size(26.dp)
+                    )
+                }
+                Text(
+                    text = "LOQ",
+                    style = MaterialTheme.typography.titleLarge.copy(
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = 2.sp
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface
+                )
+            }
+
+            // Quick actions
+            Row(
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(6.dp)
+            ) {
+                Surface(
+                    onClick = { navController.navigate("history") },
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.7f),
+                    modifier = Modifier.size(38.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            painter = painterResource(R.drawable.history),
+                            contentDescription = stringResource(R.string.history),
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                }
+                Surface(
+                    onClick = { navController.navigate("settings") },
+                    shape = CircleShape,
+                    color = MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.7f),
+                    modifier = Modifier.size(38.dp)
+                ) {
+                    Box(contentAlignment = Alignment.Center) {
+                        Icon(
+                            painter = painterResource(R.drawable.settings),
+                            contentDescription = stringResource(R.string.settings),
+                            tint = MaterialTheme.colorScheme.onSurface,
+                            modifier = Modifier.size(18.dp)
+                        )
+                    }
+                }
+            }
+        }
+
+        // Greeting text
+        Column(verticalArrangement = Arrangement.spacedBy(2.dp)) {
+            Text(
+                text = personalizedGreeting,
+                style = MaterialTheme.typography.headlineMedium.copy(
+                    fontWeight = FontWeight.Bold,
+                    letterSpacing = (-0.5).sp
+                ),
+                color = MaterialTheme.colorScheme.onSurface,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = "Let's vibe to something amazing 🎵",
+                style = MaterialTheme.typography.bodyMedium,
+                color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
+            )
+        }
+
+        // Modern Rounded Search field (triggers search screen)
+        Surface(
+            onClick = { navController.navigate(Screens.Search.route) },
+            shape = RoundedCornerShape(26.dp),
+            color = MaterialTheme.colorScheme.surfaceContainerHigh,
+            border = BorderStroke(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f)),
+            modifier = Modifier
+                .fillMaxWidth()
+                .height(52.dp)
+        ) {
+            Row(
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(horizontal = 16.dp),
+                verticalAlignment = Alignment.CenterVertically,
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
+            ) {
+                Icon(
+                    painter = painterResource(R.drawable.search),
+                    contentDescription = null,
+                    tint = MaterialTheme.colorScheme.primary,
+                    modifier = Modifier.size(20.dp)
+                )
+                Text(
+                    text = "Search songs, artists, playlists...",
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.7f),
+                    modifier = Modifier.weight(1f)
+                )
+            }
         }
     }
 }

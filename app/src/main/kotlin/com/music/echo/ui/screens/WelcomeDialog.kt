@@ -1,9 +1,6 @@
 package echo.music.iad1tya.ui.screens
 
-import androidx.compose.animation.AnimatedVisibility
-import androidx.compose.animation.fadeIn
-import androidx.compose.animation.fadeOut
-import androidx.compose.foundation.background
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
@@ -14,8 +11,6 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalFocusManager
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
@@ -29,6 +24,11 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import echo.music.iad1tya.R
 
+/**
+ * Normal first-launch username onboarding dialog.
+ * Asks "What's your name?" with input "Your name" and button "Continue".
+ * Saves name locally, requires no account/internet, rejects empty names.
+ */
 @Composable
 fun LoqOnboardingDialog(
     onNameSaved: (String) -> Unit
@@ -38,9 +38,7 @@ fun LoqOnboardingDialog(
     val focusManager = LocalFocusManager.current
 
     Dialog(
-        onDismissRequest = {
-            // Non-dismissible by clicking outside on first launch
-        },
+        onDismissRequest = {},
         properties = DialogProperties(
             dismissOnBackPress = false,
             dismissOnClickOutside = false,
@@ -65,7 +63,6 @@ fun LoqOnboardingDialog(
                 horizontalAlignment = Alignment.CenterHorizontally,
                 verticalArrangement = Arrangement.Center
             ) {
-                // Brand pill
                 Surface(
                     shape = RoundedCornerShape(12.dp),
                     color = MaterialTheme.colorScheme.primary.copy(alpha = 0.12f),
@@ -82,7 +79,6 @@ fun LoqOnboardingDialog(
                     )
                 }
 
-                // Title: What's your name?
                 Text(
                     text = stringResource(R.string.onboarding_whats_your_name),
                     style = MaterialTheme.typography.headlineSmall.copy(
@@ -95,7 +91,6 @@ fun LoqOnboardingDialog(
 
                 Spacer(modifier = Modifier.height(8.dp))
 
-                // Subtitle
                 Text(
                     text = stringResource(R.string.onboarding_subtitle),
                     style = MaterialTheme.typography.bodyMedium,
@@ -106,7 +101,6 @@ fun LoqOnboardingDialog(
 
                 Spacer(modifier = Modifier.height(28.dp))
 
-                // Input: Your name
                 OutlinedTextField(
                     value = nameInput,
                     onValueChange = {
@@ -159,7 +153,6 @@ fun LoqOnboardingDialog(
 
                 Spacer(modifier = Modifier.height(24.dp))
 
-                // Continue Button
                 Button(
                     onClick = {
                         val trimmed = nameInput.trim()
@@ -195,12 +188,91 @@ fun LoqOnboardingDialog(
     }
 }
 
-// Retain alias for existing call sites if needed
+/**
+ * Universal clean welcome dialog shown after onboarding.
+ * Displays the supplied white LOQ logo and "Welcome to LOQ".
+ * No special name-matching or Easter egg logic.
+ */
 @Composable
-fun WelcomeDialog(
-    onDismissRequest: () -> Unit
+fun LoqWelcomeDialog(
+    onContinue: () -> Unit
 ) {
-    LoqOnboardingDialog(
-        onNameSaved = { onDismissRequest() }
-    )
+    Dialog(
+        onDismissRequest = onContinue,
+        properties = DialogProperties(
+            dismissOnBackPress = true,
+            dismissOnClickOutside = false,
+            usePlatformDefaultWidth = false
+        )
+    ) {
+        Card(
+            modifier = Modifier
+                .padding(horizontal = 24.dp)
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            shape = RoundedCornerShape(28.dp),
+            colors = CardDefaults.cardColors(
+                containerColor = MaterialTheme.colorScheme.surfaceContainerHigh
+            ),
+            elevation = CardDefaults.cardElevation(defaultElevation = 6.dp)
+        ) {
+            Column(
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(32.dp),
+                horizontalAlignment = Alignment.CenterHorizontally,
+                verticalArrangement = Arrangement.Center
+            ) {
+                Image(
+                    painter = painterResource(R.drawable.loq_logo_white_transparent),
+                    contentDescription = "LOQ Logo",
+                    modifier = Modifier
+                        .size(80.dp)
+                        .padding(bottom = 20.dp)
+                )
+
+                Text(
+                    text = stringResource(R.string.welcome_to_loq),
+                    style = MaterialTheme.typography.headlineMedium.copy(
+                        fontWeight = FontWeight.Bold,
+                        letterSpacing = (-0.5).sp
+                    ),
+                    color = MaterialTheme.colorScheme.onSurface,
+                    textAlign = TextAlign.Center
+                )
+
+                Spacer(modifier = Modifier.height(12.dp))
+
+                Text(
+                    text = stringResource(R.string.about_loq_summary),
+                    style = MaterialTheme.typography.bodyMedium,
+                    color = MaterialTheme.colorScheme.onSurfaceVariant,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier.padding(horizontal = 8.dp)
+                )
+
+                Spacer(modifier = Modifier.height(28.dp))
+
+                Button(
+                    onClick = onContinue,
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .height(52.dp),
+                    shape = RoundedCornerShape(16.dp),
+                    colors = ButtonDefaults.buttonColors(
+                        containerColor = MaterialTheme.colorScheme.primary,
+                        contentColor = MaterialTheme.colorScheme.onPrimary
+                    )
+                ) {
+                    Text(
+                        text = stringResource(R.string.continue_action),
+                        style = MaterialTheme.typography.titleMedium.copy(
+                            fontWeight = FontWeight.Bold,
+                            letterSpacing = 0.5.sp
+                        )
+                    )
+                }
+            }
+        }
+    }
 }

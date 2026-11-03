@@ -120,7 +120,7 @@ fun FloatingNavigationToolbar(
         surfaceTintColor = if (pureBlack) Color.Black else MaterialTheme.colorScheme.surface
     )
 
-    val toolbarContainerColor = if (useGlass) Color.Transparent else (if (pureBlack) Color.Black else MaterialTheme.colorScheme.surface.copy(alpha = 0.85f))
+    val toolbarContainerColor = if (useGlass) Color.Transparent else floatingToolbarContainerColor(pureBlack)
     val toolbarColors = FloatingToolbarDefaults.standardFloatingToolbarColors(
         toolbarContainerColor = toolbarContainerColor,
     )
@@ -128,7 +128,7 @@ fun FloatingNavigationToolbar(
     val toolbarModifier = if (useGlass) {
         Modifier.liquidGlass(config = denseGlassConfig, shape = RoundedCornerShape(percent = 50))
     } else {
-        Modifier
+        Modifier.border(1.dp, MaterialTheme.colorScheme.outlineVariant.copy(alpha = 0.35f), RoundedCornerShape(percent = 50))
     }
 
     val hasOverflowMenu = (onShuffleClick != null && shuffleIconRes != null) || onMusicRecognitionClick != null
@@ -527,36 +527,36 @@ private fun FloatingNavigationToolbarItem(
 @Composable
 private fun floatingToolbarContainerColor(pureBlack: Boolean): Color {
     return if (pureBlack) {
-        Color.Black
+        Color(0xFF090614)
     } else {
-        MaterialTheme.colorScheme.surfaceContainer
+        MaterialTheme.colorScheme.surfaceContainerHigh.copy(alpha = 0.94f)
     }
 }
 
 @Composable
 private fun floatingToolbarFabContainerColor(pureBlack: Boolean): Color {
-    return MaterialTheme.colorScheme.onSurface.copy(alpha = 0.15f)
+    return MaterialTheme.colorScheme.primary.copy(alpha = 0.20f)
 }
 
 @Composable
 private fun floatingToolbarFabContentColor(pureBlack: Boolean): Color {
-    return MaterialTheme.colorScheme.onSurface
+    return MaterialTheme.colorScheme.primary
 }
 
 @Composable
 private fun floatingToolbarSelectedItemContainerColor(pureBlack: Boolean): Color {
-    return MaterialTheme.colorScheme.onSurface.copy(alpha = 0.15f)
+    return MaterialTheme.colorScheme.primary.copy(alpha = 0.22f)
 }
 
 @Composable
 private fun floatingToolbarSelectedItemContentColor(pureBlack: Boolean): Color {
-    return MaterialTheme.colorScheme.onSurface
+    return MaterialTheme.colorScheme.primary
 }
 
 
 @Composable
 private fun floatingToolbarItemContentColor(pureBlack: Boolean): Color {
-    return MaterialTheme.colorScheme.onSurfaceVariant
+    return MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.72f)
 }
 
 @Composable

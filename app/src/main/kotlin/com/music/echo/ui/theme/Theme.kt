@@ -24,7 +24,79 @@ import com.materialkolor.dynamiccolor.ColorSpec
 import com.materialkolor.rememberDynamicColorScheme
 import com.materialkolor.score.Score
 
-val DefaultThemeColor = Color(0xFFED5564)
+import androidx.compose.material3.darkColorScheme
+import androidx.compose.material3.lightColorScheme
+
+val DefaultThemeColor = Color(0xFFB18CFF)
+
+// LOQ Coherent Palette inspired by visual design reference
+val LoqLavenderPrimary = Color(0xFFB18CFF)
+val LoqLavenderOnPrimary = Color(0xFF1B0934)
+val LoqLavenderPrimaryContainer = Color(0xFF38235B)
+val LoqLavenderOnPrimaryContainer = Color(0xFFEADBFF)
+val LoqLilacSecondary = Color(0xFFD3BBFF)
+val LoqLilacOnSecondary = Color(0xFF220F41)
+val LoqPinkTertiary = Color(0xFFF7B1D3)
+val LoqPinkOnTertiary = Color(0xFF400A25)
+val LoqDeepDarkBackground = Color(0xFF0E0A17)
+val LoqOnBackgroundText = Color(0xFFFAF8FF)
+val LoqDarkSurface = Color(0xFF140F22)
+val LoqDarkSurfaceVariant = Color(0xFF221A37)
+val LoqDarkSurfaceContainer = Color(0xFF1B152B)
+val LoqDarkSurfaceContainerLow = Color(0xFF151022)
+val LoqDarkSurfaceContainerHigh = Color(0xFF271F3E)
+val LoqDarkSurfaceContainerHighest = Color(0xFF362C54)
+val LoqDarkOutline = Color(0xFF4C416A)
+val LoqDarkOutlineVariant = Color(0xFF2B2240)
+
+val LoqDarkColorScheme = darkColorScheme(
+    primary = LoqLavenderPrimary,
+    onPrimary = LoqLavenderOnPrimary,
+    primaryContainer = LoqLavenderPrimaryContainer,
+    onPrimaryContainer = LoqLavenderOnPrimaryContainer,
+    secondary = LoqLilacSecondary,
+    onSecondary = LoqLilacOnSecondary,
+    secondaryContainer = Color(0xFF342651),
+    onSecondaryContainer = Color(0xFFEADBFF),
+    tertiary = LoqPinkTertiary,
+    onTertiary = LoqPinkOnTertiary,
+    tertiaryContainer = Color(0xFF5A193B),
+    onTertiaryContainer = Color(0xFFFFD8E7),
+    background = LoqDeepDarkBackground,
+    onBackground = LoqOnBackgroundText,
+    surface = LoqDarkSurface,
+    onSurface = LoqOnBackgroundText,
+    surfaceVariant = LoqDarkSurfaceVariant,
+    onSurfaceVariant = Color(0xFFCDC5E3),
+    surfaceContainer = LoqDarkSurfaceContainer,
+    surfaceContainerLow = LoqDarkSurfaceContainerLow,
+    surfaceContainerHigh = LoqDarkSurfaceContainerHigh,
+    surfaceContainerHighest = LoqDarkSurfaceContainerHighest,
+    outline = LoqDarkOutline,
+    outlineVariant = LoqDarkOutlineVariant,
+)
+
+val LoqLightColorScheme = lightColorScheme(
+    primary = Color(0xFF7E46D8),
+    onPrimary = Color.White,
+    primaryContainer = Color(0xFFECDDFE),
+    onPrimaryContainer = Color(0xFF270057),
+    secondary = Color(0xFF6B538C),
+    onSecondary = Color.White,
+    secondaryContainer = Color(0xFFEEDBFF),
+    onSecondaryContainer = Color(0xFF261044),
+    tertiary = Color(0xFF8F4264),
+    onTertiary = Color.White,
+    background = Color(0xFFF9F6FE),
+    onBackground = Color(0xFF1B1624),
+    surface = Color.White,
+    onSurface = Color(0xFF1B1624),
+    surfaceVariant = Color(0xFFE9E2F4),
+    onSurfaceVariant = Color(0xFF4A4458),
+    surfaceContainer = Color(0xFFF2EDFA),
+    surfaceContainerHigh = Color(0xFFEAE3F4),
+    surfaceContainerHighest = Color(0xFFE2DCED),
+)
 
 @Composable
 fun echomusicTheme(
@@ -33,25 +105,36 @@ fun echomusicTheme(
     themeColor: Color = DefaultThemeColor,
     content: @Composable () -> Unit,
 ) {
-    val context = LocalContext.current
-    
-    val useSystemDynamicColor = (themeColor == DefaultThemeColor && Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
-
-    
-    val baseColorScheme = if (useSystemDynamicColor) {
-        
-        if (darkTheme) dynamicDarkColorScheme(context) else dynamicLightColorScheme(context)
+    val baseColorScheme = if (darkTheme) {
+        if (themeColor == DefaultThemeColor) {
+            LoqDarkColorScheme
+        } else {
+            rememberDynamicColorScheme(
+                seedColor = themeColor,
+                isDark = true,
+                specVersion = ColorSpec.SpecVersion.SPEC_2025,
+                style = PaletteStyle.TonalSpot,
+            ).copy(
+                background = LoqDeepDarkBackground,
+                surface = LoqDarkSurface,
+                surfaceContainer = LoqDarkSurfaceContainer,
+                surfaceContainerHigh = LoqDarkSurfaceContainerHigh,
+                surfaceContainerHighest = LoqDarkSurfaceContainerHighest,
+            )
+        }
     } else {
-        
-        rememberDynamicColorScheme(
-            seedColor = themeColor, 
-            isDark = darkTheme,
-            specVersion = ColorSpec.SpecVersion.SPEC_2025,
-            style = PaletteStyle.TonalSpot 
-        )
+        if (themeColor == DefaultThemeColor) {
+            LoqLightColorScheme
+        } else {
+            rememberDynamicColorScheme(
+                seedColor = themeColor,
+                isDark = false,
+                specVersion = ColorSpec.SpecVersion.SPEC_2025,
+                style = PaletteStyle.TonalSpot,
+            )
+        }
     }
 
-    
     val colorScheme = remember(baseColorScheme, pureBlack, darkTheme) {
         if (darkTheme && pureBlack) {
             baseColorScheme.pureBlack(true)
@@ -60,12 +143,15 @@ fun echomusicTheme(
         }
     }
 
-    
-        MaterialTheme(
+    MaterialTheme(
         colorScheme = colorScheme,
         typography = AppTypography,
         shapes = androidx.compose.material3.MaterialTheme.shapes.copy(
-            extraSmall = androidx.compose.foundation.shape.RoundedCornerShape(24.dp)
+            extraSmall = androidx.compose.foundation.shape.RoundedCornerShape(12.dp),
+            small = androidx.compose.foundation.shape.RoundedCornerShape(16.dp),
+            medium = androidx.compose.foundation.shape.RoundedCornerShape(20.dp),
+            large = androidx.compose.foundation.shape.RoundedCornerShape(24.dp),
+            extraLarge = androidx.compose.foundation.shape.RoundedCornerShape(28.dp),
         ),
         content = content
     )

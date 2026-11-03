@@ -545,6 +545,8 @@ val LastOpenedVersionCodeKey = intPreferencesKey("lastOpenedVersionCode")
 val UserSavedNameKey = stringPreferencesKey("userSavedName")
 val OnboardingCompletedKey = booleanPreferencesKey("onboardingCompleted")
 val EasterEggShownKey = booleanPreferencesKey("easterEggShown")
+val UpdateNotificationEnabledKey = booleanPreferencesKey("update_notification_enabled")
+val PerformanceModeKey = stringPreferencesKey("performance_mode")
 
 val LanguageCodeToName =
     mapOf(

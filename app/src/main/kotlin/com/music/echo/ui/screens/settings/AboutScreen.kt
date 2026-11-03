@@ -95,6 +95,24 @@ fun AboutScreen(
 
             item {
                 Material3SettingsGroup(
+                    title = "Developer",
+                    items = listOf(
+                        Material3SettingsItem(
+                            icon = painterResource(R.drawable.ic_instagram_new),
+                            title = { Text("Instagram") },
+                            description = { Text("@shahid_24k") },
+                            onClick = {
+                                try {
+                                    uriHandler.openUri("https://instagram.com/shahid_24k")
+                                } catch (_: Exception) {}
+                            }
+                        )
+                    )
+                )
+            }
+
+            item {
+                Material3SettingsGroup(
                     title = stringResource(R.string.open_source_licenses),
                     items = listOf(
                         Material3SettingsItem(

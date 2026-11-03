@@ -55,8 +55,8 @@ import echo.music.iad1tya.ui.screens.settings.ThemeScreen
 import echo.music.iad1tya.ui.screens.settings.integrations.ListenTogetherSettings
 import echo.music.iad1tya.ui.screens.recognition.RecognitionScreen
 import echo.music.iad1tya.ui.screens.recognition.RecognitionHistoryScreen
-import echo.music.iad1tya.ui.screens.settings.UpdateSettings
-import echo.music.iad1tya.echomusic.updater.UpdateScreen
+import echo.music.iad1tya.updater.LoqUpdateSettingsScreen
+
 import echo.music.iad1tya.utils.rememberEnumPreference
 import echo.music.iad1tya.utils.rememberPreference
 import echo.music.iad1tya.echomusic.changelog.ChangelogScreen
@@ -330,7 +330,7 @@ fun NavGraphBuilder.navigationBuilder(
         route = "settings/update?highlightKey={highlightKey}",
         arguments = listOf(navArgument("highlightKey") { type = NavType.StringType; nullable = true })
     ) { backStackEntry ->
-       UpdateSettings(navController, scrollBehavior, highlightKey = backStackEntry.arguments?.getString("highlightKey"))
+       LoqUpdateSettingsScreen(navController, scrollBehavior)
     }
 
     composable(
@@ -448,7 +448,7 @@ fun NavGraphBuilder.navigationBuilder(
     }
 
     composable("update") {
-        UpdateScreen(navController)
+        LoqUpdateSettingsScreen(navController)
     }
 
     composable("login") {

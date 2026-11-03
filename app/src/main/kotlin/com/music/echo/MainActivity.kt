@@ -206,10 +206,8 @@ import echo.music.iad1tya.ui.menu.YouTubeSongMenu
 import echo.music.iad1tya.ui.player.BottomSheetPlayer
 import echo.music.iad1tya.ui.screens.Screens
 import echo.music.iad1tya.ui.screens.SettingDialoge
-import echo.music.iad1tya.ui.screens.WelcomeDialog
 import echo.music.iad1tya.ui.screens.LoqOnboardingDialog
-import echo.music.iad1tya.ui.screens.LoqEasterEggDialog
-import echo.music.iad1tya.ui.screens.isEasterEggName
+import echo.music.iad1tya.ui.screens.LoqWelcomeDialog
 import androidx.compose.ui.text.style.TextOverflow
 import echo.music.iad1tya.ui.screens.navigationBuilder
 import echo.music.iad1tya.ui.screens.settings.DarkMode
@@ -440,20 +438,6 @@ class MainActivity : ComponentActivity() {
         val enableDynamicTheme by rememberPreference(DynamicThemeKey, defaultValue = true)
         val enableHighRefreshRate by rememberPreference(EnableHighRefreshRateKey, defaultValue = true)
         val context = LocalContext.current
-        var whatsNewInfo by remember { androidx.compose.runtime.mutableStateOf<echo.music.iad1tya.echomusic.updater.WhatsNewInfo?>(null) }
-
-        LaunchedEffect(Unit) {
-            val currentVersion = BuildConfig.VERSION_NAME
-            val lastSeenVersion = echo.music.iad1tya.echomusic.updater.getLastSeenChangelogVersion(context)
-            if (lastSeenVersion.isEmpty()) {
-                // Fresh install, not an update — nothing "new" to show, so mark this
-                // version seen right away rather than waiting on a dialog dismissal.
-                echo.music.iad1tya.echomusic.updater.saveLastSeenChangelogVersion(context, currentVersion)
-            } else if (lastSeenVersion != currentVersion) {
-                // Only mark the version seen once its changelog is actually shown
-                whatsNewInfo = echo.music.iad1tya.echomusic.updater.fetchChangelogForVersion(currentVersion)
-            }
-        }
 
         LaunchedEffect(enableHighRefreshRate) {
             val window = this@MainActivity.window
@@ -552,21 +536,6 @@ class MainActivity : ComponentActivity() {
             pureBlack = pureBlack,
             themeColor = themeColor,
         ) {
-
-
-        whatsNewInfo?.let { info ->
-            echo.music.iad1tya.echomusic.updater.WhatsNewDialog(
-                version = BuildConfig.VERSION_NAME,
-                info = info,
-                onDismiss = {
-                    echo.music.iad1tya.echomusic.updater.saveLastSeenChangelogVersion(
-                        context,
-                        BuildConfig.VERSION_NAME,
-                    )
-                    whatsNewInfo = null
-                }
-            )
-        }
             BoxWithConstraints(
                 modifier = Modifier
                     .fillMaxSize()
@@ -856,9 +825,20 @@ class MainActivity : ComponentActivity() {
                 val (lastOpenedVersionCode, setLastOpenedVersionCode) = rememberPreference(echo.music.iad1tya.constants.LastOpenedVersionCodeKey, -1)
                 val (userSavedName, setUserSavedName) = rememberPreference(echo.music.iad1tya.constants.UserSavedNameKey, "")
                 val (onboardingCompleted, setOnboardingCompleted) = rememberPreference(echo.music.iad1tya.constants.OnboardingCompletedKey, false)
-                val (easterEggShown, setEasterEggShown) = rememberPreference(echo.music.iad1tya.constants.EasterEggShownKey, false)
+                val (updateNotificationsEnabled) = rememberPreference(echo.music.iad1tya.constants.UpdateNotificationEnabledKey, true)
                 var showOnboardingDialog by remember { mutableStateOf(false) }
-                var showEasterEggDialog by remember { mutableStateOf(false) }
+                var showWelcomeDialog by remember { mutableStateOf(false) }
+                var availableUpdateRelease by remember { mutableStateOf<echo.music.iad1tya.updater.LoqReleaseInfo?>(null) }
+                var updateDialogDismissed by androidx.compose.runtime.saveable.rememberSaveable { mutableStateOf(false) }
+
+                LaunchedEffect(updateNotificationsEnabled) {
+                    if (updateNotificationsEnabled && !updateDialogDismissed) {
+                        val result = echo.music.iad1tya.updater.LoqUpdateManager.checkForUpdates(BuildConfig.VERSION_NAME)
+                        if (result is echo.music.iad1tya.updater.UpdateCheckResult.Available) {
+                            availableUpdateRelease = result.release
+                        }
+                    }
+                }
 
                 LaunchedEffect(onboardingCompleted, userSavedName) {
                     if (!onboardingCompleted && userSavedName.isBlank()) {
@@ -1451,19 +1431,29 @@ class MainActivity : ComponentActivity() {
                                 setOnboardingCompleted(true)
                                 setLastOpenedVersionCode(BuildConfig.VERSION_CODE)
                                 showOnboardingDialog = false
-                                if (!easterEggShown && isEasterEggName(name)) {
-                                    showEasterEggDialog = true
-                                }
-                                setEasterEggShown(true)
+                                showWelcomeDialog = true
                             }
                         )
                     }
 
-                    if (showEasterEggDialog) {
-                        LoqEasterEggDialog(
+                    if (showWelcomeDialog) {
+                        LoqWelcomeDialog(
                             onContinue = {
-                                setEasterEggShown(true)
-                                showEasterEggDialog = false
+                                showWelcomeDialog = false
+                            }
+                        )
+                    }
+
+                    if (availableUpdateRelease != null && !updateDialogDismissed) {
+                        echo.music.iad1tya.updater.LoqUpdateAvailableDialog(
+                            release = availableUpdateRelease!!,
+                            onDismiss = {
+                                updateDialogDismissed = true
+                                availableUpdateRelease = null
+                            },
+                            onRemindLater = {
+                                updateDialogDismissed = true
+                                availableUpdateRelease = null
                             }
                         )
                     }

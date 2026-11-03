@@ -332,8 +332,9 @@ fun SearchScreen(
                     },
                     expanded = searchActive,
                     onExpandedChange = { searchActive = it },
+                    shape = RoundedCornerShape(26.dp),
                     colors = SearchBarDefaults.colors(
-                        containerColor = if (pureBlack) MaterialTheme.colorScheme.primary.copy(alpha = 0.15f) else MaterialTheme.colorScheme.surfaceVariant
+                        containerColor = if (pureBlack) Color(0xFF140F24) else MaterialTheme.colorScheme.surfaceContainerHigh
                     ),
                     modifier = Modifier
                         .fillMaxWidth()

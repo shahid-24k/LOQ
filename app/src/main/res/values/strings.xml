@@ -898,4 +898,5 @@
     <string name="upstream_attribution_desc">Based on Echo Music and InnerTune (GPLv3)</string>
     <string name="about_loq_summary">Minimal, modern music streaming and player</string>
     <string name="open_source_licenses">Open source licenses</string>
+    <string name="welcome_to_loq">Welcome to LOQ</string>
 </resources>
