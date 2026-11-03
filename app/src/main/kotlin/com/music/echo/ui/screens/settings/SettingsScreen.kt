@@ -57,11 +57,14 @@ import echo.music.iad1tya.ui.component.Material3SettingsGroup
 import echo.music.iad1tya.ui.component.Material3SettingsItem
 import echo.music.iad1tya.ui.screens.Screens
 import echo.music.iad1tya.ui.utils.backToMain
-import echo.music.iad1tya.echomusic.updater.getUpdateAvailableState
 import echo.music.iad1tya.constants.UserSavedNameKey
+import echo.music.iad1tya.constants.PerformanceModeKey
 import echo.music.iad1tya.utils.rememberPreference
 import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.ui.text.input.KeyboardCapitalization
+import androidx.compose.foundation.clickable
+import androidx.compose.foundation.selection.selectable
+import androidx.compose.ui.semantics.Role
 
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -73,7 +76,7 @@ highlightKey: String? = null) {
     val uriHandler = LocalUriHandler.current
     val context = LocalContext.current
     val isAndroid12OrLater = Build.VERSION.SDK_INT >= Build.VERSION_CODES.S
-    val isUpdateAvailable = getUpdateAvailableState(context) && echo.music.iad1tya.echomusic.updater.getAutoUpdateCheckSetting(context)
+    val isUpdateAvailable = false
 
     var searchQuery by rememberSaveable { mutableStateOf("") }
     val searchLower = searchQuery.lowercase()
@@ -81,6 +84,16 @@ highlightKey: String? = null) {
     val (userSavedName, setUserSavedName) = rememberPreference(UserSavedNameKey, "")
     var showEditNameDialog by rememberSaveable { mutableStateOf(false) }
     var editingNameInput by rememberSaveable { mutableStateOf("") }
+
+    val (performanceMode, setPerformanceMode) = rememberPreference(PerformanceModeKey, "auto")
+    var showPerformanceDialog by rememberSaveable { mutableStateOf(false) }
+    val performanceModeText = "Performance Mode"
+    val performanceModeDesc = when (performanceMode.lowercase()) {
+        "lite" -> "Lite (Optimized for 2GB/3GB RAM, minimal animations)"
+        "balanced" -> "Balanced (Smooth entry-level experience)"
+        "full" -> "Full (Full visuals and animations)"
+        else -> "Auto (Dynamically adapts to device capabilities)"
+    }
 
     val yourNameText = stringResource(R.string.your_name)
     val accountText = stringResource(R.string.account)
@@ -143,6 +156,70 @@ highlightKey: String? = null) {
             dismissButton = {
                 TextButton(onClick = { showEditNameDialog = false }) {
                     Text(stringResource(R.string.cancel))
+                }
+            },
+            shape = RoundedCornerShape(24.dp)
+        )
+    }
+
+    if (showPerformanceDialog) {
+        AlertDialog(
+            onDismissRequest = { showPerformanceDialog = false },
+            title = {
+                Text(
+                    text = "Performance Mode",
+                    style = MaterialTheme.typography.titleLarge.copy(fontWeight = FontWeight.Bold)
+                )
+            },
+            text = {
+                Column(verticalArrangement = Arrangement.spacedBy(8.dp)) {
+                    val options = listOf(
+                        "auto" to ("Auto (Recommended)" to "Automatically matches device RAM and CPU cores"),
+                        "lite" to ("Lite" to "Ultra-lightweight for low-RAM devices (2GB/3GB)"),
+                        "balanced" to ("Balanced" to "Balanced visuals and performance"),
+                        "full" to ("Full" to "Unrestricted animations and premium effects")
+                    )
+                    options.forEach { (key, info) ->
+                        val selected = performanceMode.equals(key, ignoreCase = true)
+                        Row(
+                            verticalAlignment = Alignment.CenterVertically,
+                            modifier = Modifier
+                                .fillMaxWidth()
+                                .selectable(
+                                    selected = selected,
+                                    onClick = {
+                                        setPerformanceMode(key)
+                                        showPerformanceDialog = false
+                                    },
+                                    role = Role.RadioButton
+                                )
+                                .padding(vertical = 8.dp)
+                        ) {
+                            RadioButton(
+                                selected = selected,
+                                onClick = null
+                            )
+                            Spacer(Modifier.width(12.dp))
+                            Column {
+                                Text(
+                                    text = info.first,
+                                    style = MaterialTheme.typography.bodyLarge.copy(
+                                        fontWeight = if (selected) FontWeight.Bold else FontWeight.Normal
+                                    )
+                                )
+                                Text(
+                                    text = info.second,
+                                    style = MaterialTheme.typography.bodySmall,
+                                    color = MaterialTheme.colorScheme.onSurfaceVariant
+                                )
+                            }
+                        }
+                    }
+                }
+            },
+            confirmButton = {
+                TextButton(onClick = { showPerformanceDialog = false }) {
+                    Text(stringResource(R.string.close))
                 }
             },
             shape = RoundedCornerShape(24.dp)
@@ -239,6 +316,17 @@ highlightKey: String? = null) {
                         title = { Text(appearanceText) },
                         description = { Text(appearanceDesc) },
                         onClick = { navController.navigate("settings/appearance") }
+                    )
+                )
+            }
+            if (performanceModeText.lowercase().contains(searchLower) || "performance".contains(searchLower)) {
+                add(
+                    Material3SettingsItem(
+                        isHighlighted = (highlightKey == performanceModeText),
+                        icon = painterResource(R.drawable.speed),
+                        title = { Text(performanceModeText) },
+                        description = { Text(performanceModeDesc) },
+                        onClick = { showPerformanceDialog = true }
                     )
                 )
             }

@@ -1924,8 +1924,8 @@ private fun LoqHomeHeader(
         }
     }
     val personalizedGreeting = remember(greeting, userSavedName) {
-        if (userSavedName.isNotBlank()) "$greeting, $userSavedName ✨"
-        else "$greeting ✨"
+        if (userSavedName.isNotBlank()) "$greeting, $userSavedName"
+        else greeting
     }
 
     Column(
@@ -2019,7 +2019,7 @@ private fun LoqHomeHeader(
                 overflow = TextOverflow.Ellipsis
             )
             Text(
-                text = "Let's vibe to something amazing 🎵",
+                text = "Your music. Your sanctuary.",
                 style = MaterialTheme.typography.bodyMedium,
                 color = MaterialTheme.colorScheme.onSurfaceVariant.copy(alpha = 0.8f)
             )

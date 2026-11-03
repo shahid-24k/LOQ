@@ -906,6 +906,11 @@ class MainActivity : ComponentActivity() {
                     !(pauseListenHistory && eventCount == 0)
                 }
 
+                val (performanceMode) = rememberPreference(echo.music.iad1tya.constants.PerformanceModeKey, "auto")
+                val performanceProfile = remember(performanceMode) {
+                    echo.music.iad1tya.performance.PerformanceManager.resolveProfile(context, performanceMode)
+                }
+
                 val (liquidGlassGlobalEnabled) = rememberPreference(LiquidGlassGlobalEnabledKey, defaultValue = false)
                 val (liquidGlassVibrancy) = rememberPreference(LiquidGlassVibrancyKey, defaultValue = 1f)
                 val (liquidGlassBlurRadius) = rememberPreference(LiquidGlassBlurRadiusKey, defaultValue = 8f)
@@ -953,6 +958,7 @@ class MainActivity : ComponentActivity() {
                 val ringtoneUiState by ringtoneViewModel.uiState.collectAsState()
 
                 CompositionLocalProvider(
+                    echo.music.iad1tya.performance.LocalPerformanceProfile provides performanceProfile,
                     LocalRingtoneViewModel provides ringtoneViewModel,
                     LocalDatabase provides database,
                     LocalContentColor provides if (pureBlack) Color.White else contentColorFor(MaterialTheme.colorScheme.surface),

@@ -41,4 +41,5 @@ lastfm-empty/build/
 
 # Build distribution & APKs
 dist/
+tools/
 *.apk
